@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../template/HomeTemplate.xhtml">
+
+            <ui:define name="content">
+                <h1></h1>
+                <h:form>
+                    <p:commandButton value="Nuevo Persona" actionListener="#{personaBean.nuevaPersona()}" oncomplete="PF('dialogNuevoPersona').show();" update=":formNuevoPersona" style="text-align:center; font-size:15px"/>
+                </h:form>
+                <h1></h1>
+                <h:form id="formMostrarPersonas">
+                    <p:dataTable id="tablePersonas" value="#{personaBean.listaPersonas}" var="per" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">
+                        <p:column headerText="Clase" style="text-align:center">
+                            <h:outputText value="#{per.idTipoPersona}"/>
+                        </p:column>
+                        <p:column headerText="Documento" style="text-align:center">
+                            <h:outputText value="#{per.idTipoDocumento}"/>
+                        </p:column>
+                        <p:column headerText="Identificación" style="text-align:center">
+                            <h:outputText value="#{per.identificacionPersona}"/>
+                        </p:column>
+                        <p:column headerText="Nombres" style="text-align:center">
+                            <h:outputText value="#{per.nombresPersona}"/>
+                        </p:column>
+                        <p:column headerText="Apellidos" style="text-align:center">
+                            <h:outputText value="#{per.apellidosPersona}"/>
+                        </p:column>
+                        <p:column headerText="Departamento" style="text-align:center">
+                            <h:outputText value="#{per.idDepartamento}"/>
+                        </p:column>
+                        <p:column headerText="Ciudad" style="text-align:center">
+                            <h:outputText value="#{per.idCiudad}"/>
+                        </p:column>
+                        <p:column headerText="Dirección" style="text-align:center">
+                            <h:outputText value="#{per.direccionPersona}"/>
+                        </p:column>
+                        <p:column headerText="Teléfono" style="text-align:center">
+                            <h:outputText value="#{per.telefonoPersona}"/>
+                        </p:column>
+                        <p:column headerText="Email" style="text-align:center">
+                            <h:outputText value="#{per.correoPersona}"/>
+                        </p:column>
+                        <p:column headerText="Modificar" style="text-align:center; font-size:13px">
+                            <p:commandButton value="Modificar" oncomplete="PF('dialogModificarPersona').show();" update=":formModificarPersona">
+                                <f:setPropertyActionListener target="#{personaBean.persona}" value="#{per}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Eliminar" style="text-align:center; font-size:13px">
+                            <p:commandButton value="Eliminar" oncomplete="PF('dialogEliminarPersona').show();" update=":formEliminarPersona">
+                                <f:setPropertyActionListener target="#{personaBean.persona}" value="#{per}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="formNuevoPersona">
+                    <p:dialog id="dlgNuevoPersona" header="Información Persona" widgetVar="dialogNuevoPersona" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Clase"/>
+                                <p:inputText value="#{personaBean.persona.idTipoPersona}"/>
+                            <p:outputLabel value="Documento"/>
+                                <p:inputText value="#{personaBean.persona.idTipoDocumento}"/>
+                            <p:outputLabel value="Identificación"/>
+                                <p:inputText value="#{personaBean.persona.identificacionPersona}"/>
+                            <p:outputLabel value="Nombres"/>
+                                <p:inputText value="#{personaBean.persona.nombresPersona}"/>
+                            <p:outputLabel value="Apellidos"/>
+                                <p:inputText value="#{personaBean.persona.apellidosPersona}"/>
+                            <p:outputLabel value="Departamento"/>
+                                <p:inputText value="#{personaBean.persona.idDepartamento}"/>
+                            <p:outputLabel value="Ciudad"/>
+                                <p:inputText value="#{personaBean.persona.idCiudad}"/>
+                            <p:outputLabel value="Dirección"/>
+                                <p:inputText value="#{personaBean.persona.direccionPersona}"/>
+                            <p:outputLabel value="Teléfono"/>
+                                <p:inputText value="#{personaBean.persona.telefonoPersona}"/>
+                            <p:outputLabel value="Email"/>
+                                <p:inputText value="#{personaBean.persona.correoPersona}"/>    
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" actionListener="#{personaBean.ingresarPersona()}" oncomplete="PF('dialogNuevoPersona').hide();" update=":formMostrarPersonas:tablePersonas"/>
+                        <p:commandButton value="Cancelar" onclick="PF('dialogNuevoPersona').hide();"/>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formModificarPersona">
+                    <p:dialog id="dlgNuevoPersona" header="Información Persona" widgetVar="dialogModificarPersona" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Clase"/>
+                                <p:inputText value="#{personaBean.persona.idTipoPersona}"/>
+                            <p:outputLabel value="Documento"/>
+                                <p:inputText value="#{personaBean.persona.idTipoDocumento}"/>
+                            <p:outputLabel value="Identificación"/>
+                                <p:inputText value="#{personaBean.persona.identificacionPersona}"/>
+                            <p:outputLabel value="Nombres"/>
+                                <p:inputText value="#{personaBean.persona.nombresPersona}"/>
+                            <p:outputLabel value="Apellidos"/>
+                                <p:inputText value="#{personaBean.persona.apellidosPersona}"/>
+                            <p:outputLabel value="Departamento"/>
+                                <p:inputText value="#{personaBean.persona.idDepartamento}"/>
+                            <p:outputLabel value="Ciudad"/>
+                                <p:inputText value="#{personaBean.persona.idCiudad}"/>
+                            <p:outputLabel value="Dirección"/>
+                                <p:inputText value="#{personaBean.persona.direccionPersona}"/>
+                            <p:outputLabel value="Teléfono"/>
+                                <p:inputText value="#{personaBean.persona.telefonoPersona}"/>
+                            <p:outputLabel value="Email"/>
+                                <p:inputText value="#{personaBean.persona.correoPersona}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Modificar" actionListener="#{personaBean.actualizarPersona()}" oncomplete="PF('dialogModificarPersona').hide();" update=":formMostrarPersonas:tablePersonas"/>
+                        <p:commandButton value="Cancelar" onclick="PF('dialogModificarPersona').hide();"/>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formEliminarPersona">
+                    <p:dialog id="dlgEliminarPersona" header="Información Persona" widgetVar="dialogEliminarPersona" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <h:outputText value="¿Desea Eliminar esta Persona? "/>
+                        <p:commandButton value="Si" actionListener="#{personaBean.eliminarPersona()}" oncomplete="PF('dialogEliminarPersona').hide();" update=":formMostrarPersonas:tablePersonas"/>
+                        <p:commandButton value="No" onclick="PF('dialogEliminarPersona').hide();"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

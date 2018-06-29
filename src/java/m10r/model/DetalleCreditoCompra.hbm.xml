@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 29, 2018 3:25:42 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="m10r.model.DetalleCreditoCompra" table="detalleCreditoCompra" catalog="moto10racingHBT" optimistic-lock="version">
+        <id name="idDetalleCreditoCompra" type="java.lang.Integer">
+            <column name="idDetalleCreditoCompra" />
+            <generator class="identity" />
+        </id>
+        <property name="idCreditoCompra" type="int">
+            <column name="idCreditoCompra" not-null="true" unique="true" />
+        </property>
+        <property name="idCompra" type="int">
+            <column name="idCompra" not-null="true" unique="true" />
+        </property>
+        <property name="creditoCompraActual" type="float">
+            <column name="creditoCompraActual" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="abonoCreditoCompra" type="float">
+            <column name="abonoCreditoCompra" precision="12" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 29, 2018 3:25:42 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="m10r.model.Persona" table="Persona" catalog="moto10racingHBT" optimistic-lock="version">
+        <id name="idPersona" type="java.lang.Integer">
+            <column name="idPersona" />
+            <generator class="identity" />
+        </id>
+        <property name="idTipoPersona" type="int">
+            <column name="idTipoPersona" not-null="true" />
+        </property>
+        <property name="idTipoDocumento" type="int">
+            <column name="idTipoDocumento" not-null="true" />
+        </property>
+        <property name="identificacionPersona" type="int">
+            <column name="identificacionPersona" not-null="true" unique="true" />
+        </property>
+        <property name="nombresPersona" type="string">
+            <column name="nombresPersona" length="100" not-null="true" />
+        </property>
+        <property name="apellidosPersona" type="string">
+            <column name="apellidosPersona" length="100" not-null="true" />
+        </property>
+        <property name="idDepartamento" type="int">
+            <column name="idDepartamento" not-null="true" />
+        </property>
+        <property name="idCiudad" type="int">
+            <column name="idCiudad" not-null="true" />
+        </property>
+        <property name="direccionPersona" type="string">
+            <column name="direccionPersona" length="100" />
+        </property>
+        <property name="telefonoPersona" type="string">
+            <column name="telefonoPersona" length="100" />
+        </property>
+        <property name="correoPersona" type="string">
+            <column name="correoPersona" length="100" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 29, 2018 3:25:42 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="m10r.model.Producto" table="Producto" catalog="moto10racingHBT" optimistic-lock="version">
+        <id name="idProducto" type="java.lang.Integer">
+            <column name="idProducto" />
+            <generator class="identity" />
+        </id>
+        <property name="codigoProducto" type="string">
+            <column name="codigoProducto" length="100" not-null="true" unique="true" />
+        </property>
+        <property name="nombreProducto" type="string">
+            <column name="nombreProducto" length="100" not-null="true" />
+        </property>
+        <property name="descripcionProducto" type="string">
+            <column name="descripcionProducto" length="65535" not-null="true" />
+        </property>
+        <property name="stockProducto" type="int">
+            <column name="stockProducto" not-null="true" />
+        </property>
+        <property name="valorCompraProducto" type="float">
+            <column name="valorCompraProducto" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="valorVentaProducto" type="float">
+            <column name="valorVentaProducto" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="stockMinimo" type="int">
+            <column name="stockMinimo" not-null="true" />
+        </property>
+        <property name="iva" type="string">
+            <column name="IVA" length="3" not-null="true" />
+        </property>
+        <property name="idCategoria" type="int">
+            <column name="idCategoria" not-null="true" />
+        </property>
+        <property name="idPresentacionProducto" type="int">
+            <column name="idPresentacionProducto" not-null="true" />
+        </property>
+        <property name="idUbicacionProducto" type="int">
+            <column name="idUbicacionProducto" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

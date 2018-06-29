@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../template/HomeTemplate.xhtml">
+
+            <ui:define name="content">
+                <h3>FACTURA DE COMPRA</h3>
+                <h3></h3>
+                <h:form id="formFacturaCompra">
+                  <p:growl id="mensajesCompra" autoUpdate="true" showDetail="true" life="1500"/>
+                    <p:panel style="width: 1111px; margin: 0 auto; text-align: center">
+                        <p:layout id="layoutFacturaCompra" style="width: 100%; height: 85px">
+                            <p:layoutUnit id="layoutCompra" position="center" style="padding: 5px; text-align: justify; font-size: 15px; size: 300px">
+                                <h:panelGrid id="gridBuscarProveedor" columns="5">
+                                    <p:outputLabel value="Proveedor: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:inputText id="inpTexProveedor" value="#{compraBean.identificacionPersona}" size="27" placeholder="Digite C.C o Nit">
+                                            <p:ajax event="keyup" delay="1000" listener="#{compraBean.agregarDatosPersonaPorIdentificacion()}" update=":formFacturaCompra:gridDatosProveedor :formFacturaCompra:inpTexProveedor"/>
+                                        </p:inputText> 
+                                            <p:commandButton value="+" oncomplete="PF('dialogDatosProveedores').show();" update=":formFacturaCompra:dialogProveedores"/>
+                                    <p:outputLabel value="Fecha: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:inputText size="16"/>
+                                </h:panelGrid>
+                                <h:panelGrid id="gridDatosProveedor" columns="10">
+                                    <p:outputLabel value="Nombres: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:outputLabel id="nombresProveedor" value="#{compraBean.persona.nombresPersona}"/>
+                                    <p:outputLabel value="Apellidos: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:outputLabel id="apellidosProveedor" value="#{compraBean.persona.apellidosPersona}"/>
+                                    <p:outputLabel value="Dirección: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:outputLabel id="direccionProveedor" value="#{compraBean.persona.direccionPersona}"/>
+                                    <p:outputLabel value="Teléfono: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:outputLabel id="telefonoProveedor" value="#{compraBean.persona.telefonoPersona}"/>
+                                </h:panelGrid>
+                            </p:layoutUnit>
+                            <p:layoutUnit id="layoutNumeroFactura" position="east" style=" padding: 5px; text-align: center; font-size: 15px" size="150">
+                                <h:panelGrid columns="1" style="font-size: 22px; font-weight: normal; margin-top: 30px; margin: 0 auto">
+                                    <h6>NUMERO</h6>
+                                    <p:outputLabel value="007"/>
+                                </h:panelGrid>
+                            </p:layoutUnit>
+                        </p:layout>
+                        <h:panelGrid id="gridBuscarProducto" columns="3">
+                            <p:outputLabel value="Código de Producto: " style="font-size: 16px; font-weight: bold"/>
+                                <p:inputText id="inpTexProducto" value="#{compraBean.codigoProducto}" size="27" placeholder="Digite Código Producto">
+                                    <p:ajax event="keyup" delay="1000" listener="#{compraBean.agregarDatosProductoPorCodigoProductoRead()}" update=":formFacturaCompra:tableProductoFactura :formFacturaCompra:inpTexProducto"/>
+                                </p:inputText>
+                            <p:commandButton value="+" oncomplete="PF('dialogDatosProductos').show();" update=":formFacturaCompra:dialogProductos"/>
+                        </h:panelGrid>
+                        <p:dataTable id="tableProductoFactura" value="#{compraBean.listaDetalleCompra}" var="pro">
+                            <p:column headerText="Código">
+                                <h:outputText value="#{pro.codigoProducto}"/>
+                            </p:column>
+                            <p:column headerText="Producto">
+                                <h:outputText value="#{pro.nombreProducto}"/>
+                            </p:column>
+                            <p:column headerText="Valor Compra">
+                                <h:outputText value="$#{pro.valorCompraProducto}"/>
+                            </p:column>
+                            <p:column headerText="Valor Venta">
+                                <h:outputText value="$#{pro.valorVentaProducto}"/>
+                            </p:column>
+                            <p:column headerText="Unidades Compradas">
+                                <h:outputText value="#{pro.unidadesCompradas}"/>
+                            </p:column>
+                            <p:column headerText="Total">
+                                <h:outputText value="#{pro.totalDetalleCompra}"/>
+                            </p:column>
+                        </p:dataTable>
+                            <h6>Total Compra</h6> 
+                            $<p:outputLabel value="Total a Comprar"/>
+                            <h6></h6>
+                            <p:commandButton value="Aceptar" style="width: 100px; height: 38px"/>
+                            <p:commandButton value="Imprimir" style="width: 100px; height: 38px"/>
+                            <p:commandButton value="Cancelar" style="width: 100px; height: 38px"/>
+                    </p:panel>
+                    <p:dialog id="dialogProveedores" widgetVar="dialogDatosProveedores" modal="true" resizable="true" showEffect="explode" hideEffect="explode" style="text-align:center">
+                            <p:dataTable id="tablePersonas" value="#{personaBean.listaPersonas}" var="per" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">
+                        <p:column headerText="Documento" style="text-align:center">
+                            <h:outputText value="#{per.idTipoDocumento}"/>
+                        </p:column>
+                        <p:column headerText="Identificación" style="text-align:center">
+                            <h:outputText value="#{per.identificacionPersona}"/>
+                        </p:column>
+                        <p:column headerText="Nombres" style="text-align:center">
+                            <h:outputText value="#{per.nombresPersona}"/>
+                        </p:column>
+                        <p:column headerText="Apellidos" style="text-align:center">
+                            <h:outputText value="#{per.apellidosPersona}"/>
+                        </p:column>
+                        <p:column headerText="Departamento" style="text-align:center">
+                            <h:outputText value="#{per.idDepartamento}"/>
+                        </p:column>
+                        <p:column headerText="Ciudad" style="text-align:center">
+                            <h:outputText value="#{per.idCiudad}"/>
+                        </p:column>
+                        <p:column headerText="Dirección" style="text-align:center">
+                            <h:outputText value="#{per.direccionPersona}"/>
+                        </p:column>
+                        <p:column headerText="Teléfono" style="text-align:center">
+                            <h:outputText value="#{per.telefonoPersona}"/>
+                        </p:column>
+                        <p:column headerText="Email" style="text-align:center">
+                            <h:outputText value="#{per.correoPersona}"/>
+                        </p:column>
+                        <p:column headerText="Seleccione" style="text-align:center; font-size:13px">
+                            <p:commandButton value="Seleccionar" actionListener="#{compraBean.agregarDatosPersona(per.idPersona)}" oncomplete="PF('dialogDatosProveedores').hide();" update=":formFacturaCompra:gridDatosProveedor"/>
+                        </p:column>
+                            </p:dataTable>
+                        <h6></h6><p:commandButton value="Cancelar" oncomplete="PF('dialogDatosProveedores').hide();"/>
+                    </p:dialog>
+                    <p:dialog id="dialogProductos" widgetVar="dialogDatosProductos" modal="true" resizable="true" showEffect="explode" hideEffect="explode" style="text-align:center">
+                            <p:dataTable id="tableProductos" value="#{productoBean.listaProductos}" var="pro" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">
+                        <p:column headerText="Código" style="text-align:center">
+                            <h:outputText value="#{pro.codigoProducto}"/>
+                        </p:column>
+                        <p:column headerText="Producto" style="text-align:center">
+                            <h:outputText value="#{pro.nombreProducto}"/>
+                        </p:column>
+                        <p:column headerText="Descripción" style="text-align:center">
+                            <h:outputText value="#{pro.descripcionProducto}"/>
+                        </p:column>
+                        <p:column headerText="Stock" style="text-align:center">
+                            <h:outputText value="#{pro.stockProducto}"/>
+                        </p:column>
+                        <p:column headerText="Valor Compra" style="text-align:center">
+                            <h:outputText value="#{pro.valorCompraProducto}"/>
+                        </p:column>
+                        <p:column headerText="Valor Venta" style="text-align:center">
+                            <h:outputText value="#{pro.valorVentaProducto}"/>
+                        </p:column>
+                        <p:column headerText="IVA" style="text-align:center">
+                            <h:outputText value="#{pro.iva}"/>
+                        </p:column>
+                        <p:column headerText="Categoría" style="text-align:center">
+                            <h:outputText value="#{pro.idCategoria}"/>
+                        </p:column>
+                        <p:column headerText="Presentación" style="text-align:center">
+                            <h:outputText value="#{pro.idPresentacionProducto}"/>
+                        </p:column>
+                        <p:column headerText="Ubicación" style="text-align:center">
+                            <h:outputText value="#{pro.idUbicacionProducto}"/>
+                        </p:column>        
+                        <p:column headerText="Seleccione" style="text-align:center; font-size:11px">
+                            <p:commandButton value="Seleccionar" actionListener="#{compraBean.agregarDatosProductoPorCodigoProducto(pro.codigoProducto)}" oncomplete="PF('dialogDatosProductos').hide();" update=":formFacturaCompra:tableProductoFactura"/>
+                        </p:column>
+                            </p:dataTable>
+                        <h6></h6><p:commandButton value="Cancelar" oncomplete="PF('dialogDatosProductos').hide();"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

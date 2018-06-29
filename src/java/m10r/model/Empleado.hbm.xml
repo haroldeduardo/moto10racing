@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 29, 2018 3:25:42 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="m10r.model.Empleado" table="Empleado" catalog="moto10racingHBT" optimistic-lock="version">
+        <id name="idEmpleado" type="java.lang.Integer">
+            <column name="idEmpleado" />
+            <generator class="identity" />
+        </id>
+        <property name="identificacionEmpleado" type="int">
+            <column name="identificacionEmpleado" not-null="true" unique="true" />
+        </property>
+        <property name="nombresEmpleado" type="string">
+            <column name="nombresEmpleado" length="100" not-null="true" />
+        </property>
+        <property name="apellidosEmpleado" type="string">
+            <column name="apellidosEmpleado" length="100" not-null="true" />
+        </property>
+        <property name="idDepartamento" type="int">
+            <column name="idDepartamento" not-null="true" />
+        </property>
+        <property name="idCiudad" type="int">
+            <column name="idCiudad" not-null="true" />
+        </property>
+        <property name="direccionEmpleado" type="string">
+            <column name="direccionEmpleado" length="100" not-null="true" />
+        </property>
+        <property name="telefonoEmpleado" type="string">
+            <column name="telefonoEmpleado" length="100" not-null="true" />
+        </property>
+        <property name="correoEmpleado" type="string">
+            <column name="correoEmpleado" length="100" not-null="true" />
+        </property>
+        <property name="userEmp" type="string">
+            <column name="userEmp" length="50" not-null="true" />
+        </property>
+        <property name="passEmp" type="string">
+            <column name="passEmp" length="50" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

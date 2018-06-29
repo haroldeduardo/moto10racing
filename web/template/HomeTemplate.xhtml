@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="/css/default.css"/>
+        <h:outputStylesheet name="/css/cssLayout.css"/>
+        <title>m10r</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top" align="center">
+            <ui:insert name="top"></ui:insert>
+            <h1>MOTO 10 RACING</h1>
+            <h1></h1>
+            <h:form>
+                <p:menubar style="align-content:center; width:1118px; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:22px">
+                    <p:submenu label="Inicio" icon="ui-icon-home">
+                        <p:menuitem value="Inicio" url="#" icon="ui-icon-home" />
+                        <p:separator />
+                        <p:menuitem value="Salir" url="#" icon="ui-icon-trash" />
+                    </p:submenu>
+
+                    <p:submenu label="Empleados" icon="ui-icon-gear">
+                        <p:menuitem value="Operaciones" outcome="/views/Empleado/Empleado" icon="ui-icon-refresh" />
+                    </p:submenu>
+
+                    <p:submenu label="Compras" icon="ui-icon-gear">
+                        <p:menuitem value="Operaciones" outcome="/views/Compra/Compra" icon="ui-icon-refresh" />
+                    </p:submenu>
+                    
+                    <p:submenu label="Personas" icon="ui-icon-gear">
+                        <p:menuitem value="Operaciones" outcome="/views/Persona/Persona" icon="ui-icon-refresh" />
+                    </p:submenu>
+
+                    <p:submenu label="Ventas" icon="ui-icon-gear">
+                        <p:menuitem value="Operaciones" outcome="/views/Venta/Venta" icon="ui-icon-refresh" />
+                    </p:submenu>
+                    
+                    <p:submenu label="Productos" icon="ui-icon-gear">
+                        <p:menuitem value="Operaciones" outcome="/views/Producto/Producto" icon="ui-icon-refresh" />
+                    </p:submenu>
+                    
+                    <p:submenu label="Categorias" icon="ui-icon-gear">
+                        <p:menuitem value="Operaciones" outcome="/views/Categoria/Categoria" icon="ui-icon-refresh" />
+                    </p:submenu>
+                    
+                    <p:submenu label="Usuario" icon="ui-icon-gear">
+                        <p:menuitem value="Operaciones" url="#" icon="ui-icon-refresh" />
+                    </p:submenu>
+                </p:menubar>
+            </h:form>
+        </div>
+
+        <div id="content" class="center_content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+
+        <div id="bottom">
+            <h1></h1>
+            <ui:insert name="bottom">&copy; moto10racing 2018</ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

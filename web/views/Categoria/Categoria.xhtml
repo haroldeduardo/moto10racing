@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../template/HomeTemplate.xhtml">
+
+            <ui:define name="content">
+                <h1></h1>
+                <h:form>
+                    <p:commandButton value="Nueva Categoria" actionListener="#{categoriaBean.nuevaCategoria()}" oncomplete="PF('dialogNuevaCategoria').show();" update=":formNuevaCategoria" style="text-align:center; font-size:15px"/>
+                </h:form>
+                <h1></h1>
+                <h:form id="formMostrarCategorias">
+                    <p:dataTable id="tableCategorias" value="#{categoriaBean.listaCategorias}" var="cat" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">
+                        <p:column headerText="Categoria" style="text-align:center">
+                            <h:outputText value="#{cat.nombreCategoria}"/>
+                        </p:column>
+                        <p:column headerText="Descripción" style="text-align:center">
+                            <h:outputText value="#{cat.descripcionCategoria}"/>
+                        </p:column>
+                        <p:column headerText="Modificar" style="text-align:center; font-size:15px">
+                            <p:commandButton value="Modificar" oncomplete="PF('dialogModificarCategoria').show();" update=":formModificarCategoria">
+                                <f:setPropertyActionListener target="#{categoriaBean.categoria}" value="#{cat}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Eliminar" style="text-align:center; font-size:15px">
+                            <p:commandButton value="Eliminar" oncomplete="PF('dialogEliminarCategoria').show();" update=":formEliminarCategoria">
+                                <f:setPropertyActionListener target="#{categoriaBean.categoria}" value="#{cat}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="formNuevaCategoria">
+                    <p:dialog id="dlgNuevaCategoria" header="Información Categoria" widgetVar="dialogNuevaCategoria" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Categoria"/>
+                                <p:inputText value="#{categoriaBean.categoria.nombreCategoria}"/>
+                            <p:outputLabel value="Descripción"/>
+                                <p:inputText value="#{categoriaBean.categoria.descripcionCategoria}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" actionListener="#{categoriaBean.ingresarCategoria()}" oncomplete="PF('dialogNuevaCategoria').hide();" update=":formMostrarCategorias:tableCategorias"/>
+                        <p:commandButton value="Cancelar" onclick="PF('dialogNuevaCategoria').hide();"/>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formModificarCategoria">
+                    <p:dialog id="dlgNuevaCategoria" header="Información Categoria" widgetVar="dialogModificarCategoria" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Categoria"/>
+                                <p:inputText value="#{categoriaBean.categoria.nombreCategoria}"/>
+                            <p:outputLabel value="Descripción"/>
+                                <p:inputText value="#{categoriaBean.categoria.descripcionCategoria}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Modificar" actionListener="#{categoriaBean.actualizarCategoria()}" oncomplete="PF('dialogModificarCategoria').hide();" update=":formMostrarCategorias:tableCategorias"/>
+                        <p:commandButton value="Cancelar" onclick="PF('dialogModificarCategoria').hide();"/>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formEliminarCategoria">
+                    <p:dialog id="dlgEliminarCategoria" header="Información Categoria" widgetVar="dialogEliminarCategoria" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <h:outputText value="¿Desea Eliminar esta Categoria? "/>
+                        <p:commandButton value="Si" actionListener="#{categoriaBean.eliminarCategoria()}" oncomplete="PF('dialogEliminarCategoria').hide();" update=":formMostrarCategorias:tableCategorias"/>
+                        <p:commandButton value="No" onclick="PF('dialogEliminarCategoria').hide();"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

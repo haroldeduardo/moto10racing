@@ -1,0 +1,7 @@
+*.bak
+/nbproject/private/
+nbproject/
+/build/
+build.xml
+.DS_Store
+/dist/

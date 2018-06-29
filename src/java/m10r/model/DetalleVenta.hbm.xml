@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 29, 2018 3:25:42 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="m10r.model.DetalleVenta" table="detalleVenta" catalog="moto10racingHBT" optimistic-lock="version">
+        <id name="idDetalleVenta" type="java.lang.Integer">
+            <column name="idDetalleVenta" />
+            <generator class="identity" />
+        </id>
+        <property name="idVenta" type="int">
+            <column name="idVenta" not-null="true" />
+        </property>
+        <property name="idProducto" type="int">
+            <column name="idProducto" not-null="true" />
+        </property>
+        <property name="codigoProducto" type="string">
+            <column name="codigoProducto" length="100" not-null="true" />
+        </property>
+        <property name="nombreProducto" type="string">
+            <column name="nombreProducto" length="100" not-null="true" />
+        </property>
+        <property name="valorVentaProducto" type="float">
+            <column name="valorVentaProducto" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="iva" type="string">
+            <column name="IVA" length="30" not-null="true" />
+        </property>
+        <property name="unidadesVendidas" type="int">
+            <column name="unidadesVendidas" not-null="true" />
+        </property>
+        <property name="totalDetalleVenta" type="float">
+            <column name="totalDetalleVenta" precision="12" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

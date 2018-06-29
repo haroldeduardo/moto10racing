@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 29, 2018 3:25:42 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="m10r.model.Compra" table="Compra" catalog="moto10racingHBT" optimistic-lock="version">
+        <id name="idCompra" type="java.lang.Integer">
+            <column name="idCompra" />
+            <generator class="identity" />
+        </id>
+        <property name="numeroCompra" type="string">
+            <column name="numeroCompra" length="30" not-null="true" />
+        </property>
+        <property name="idEmpleado" type="int">
+            <column name="idEmpleado" not-null="true" />
+        </property>
+        <property name="idPersona" type="int">
+            <column name="idPersona" not-null="true" />
+        </property>
+        <property name="totalCompra" type="float">
+            <column name="totalCompra" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="idTipoTransaccion" type="int">
+            <column name="idTipoTransaccion" not-null="true" />
+        </property>
+        <property name="fechaCompra" type="timestamp">
+            <column name="fechaCompra" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

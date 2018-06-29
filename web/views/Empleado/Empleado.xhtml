@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../template/HomeTemplate.xhtml">
+
+            <ui:define name="content">
+                <h1></h1>
+                <h:form>
+                    <p:commandButton value="Nuevo Empleado" actionListener="#{empleadoBean.nuevoEmpleado()}" oncomplete="PF('dialogNuevoEmpleado').show();" update=":formNuevoEmpleado" style="text-align:center; font-size:15px"/>
+                </h:form>
+                <h1></h1>
+                <h:form id="formMostrarEmpleados">
+                    <p:dataTable id="tableEmpleados" value="#{empleadoBean.listaEmpleados}" var="emp" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">
+                        <p:column headerText="Identificación" style="text-align:center">
+                            <h:outputText value="#{emp.identificacionEmpleado}"/>
+                        </p:column>
+                        <p:column headerText="Nombres" style="text-align:center">
+                            <h:outputText value="#{emp.nombresEmpleado}"/>
+                        </p:column>
+                        <p:column headerText="Apellidos" style="text-align:center">
+                            <h:outputText value="#{emp.apellidosEmpleado}"/>
+                        </p:column>
+                        <p:column headerText="Departamento" style="text-align:center">
+                            <h:outputText value="#{emp.idDepartamento}"/>
+                        </p:column>
+                        <p:column headerText="Ciudad" style="text-align:center">
+                            <h:outputText value="#{emp.idCiudad}"/>
+                        </p:column>
+                        <p:column headerText="Dirección" style="text-align:center">
+                            <h:outputText value="#{emp.direccionEmpleado}"/>
+                        </p:column>
+                        <p:column headerText="Teléfono" style="text-align:center">
+                            <h:outputText value="#{emp.telefonoEmpleado}"/>
+                        </p:column>
+                        <p:column headerText="Email" style="text-align:center">
+                            <h:outputText value="#{emp.correoEmpleado}"/>
+                        </p:column>
+                        <p:column headerText="USER" style="text-align:center">
+                            <h:outputText value="#{emp.userEmp}"/>
+                        </p:column>
+                        <p:column headerText="PASS" style="text-align:center">
+                            <h:outputText value="#{emp.passEmp}"/>
+                        </p:column>
+                        <p:column headerText="Modificar" style="text-align:center; font-size:12px">
+                            <p:commandButton value="Modificar" oncomplete="PF('dialogModificarEmpleado').show();" update=":formModificarEmpleado">
+                                <f:setPropertyActionListener target="#{empleadoBean.empleado}" value="#{emp}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Eliminar" style="text-align:center; font-size:12px">
+                            <p:commandButton value="Eliminar" oncomplete="PF('dialogEliminarEmpleado').show();" update=":formEliminarEmpleado">
+                                <f:setPropertyActionListener target="#{empleadoBean.empleado}" value="#{emp}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="formNuevoEmpleado">
+                    <p:dialog id="dlgNuevoEmpleado" header="Información Empleado" widgetVar="dialogNuevoEmpleado" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Identificación"/>
+                                <p:inputText value="#{empleadoBean.empleado.identificacionEmpleado}"/>
+                            <p:outputLabel value="Nombres"/>
+                                <p:inputText value="#{empleadoBean.empleado.nombresEmpleado}"/>
+                            <p:outputLabel value="Apellidos"/>
+                                <p:inputText value="#{empleadoBean.empleado.apellidosEmpleado}"/>
+                            <p:outputLabel value="Departamento"/>
+                                <p:inputText value="#{empleadoBean.empleado.idDepartamento}"/>
+                            <p:outputLabel value="Ciudad"/>
+                                <p:inputText value="#{empleadoBean.empleado.idCiudad}"/>
+                            <p:outputLabel value="Dirección"/>
+                                <p:inputText value="#{empleadoBean.empleado.direccionEmpleado}"/>
+                            <p:outputLabel value="Teléfono"/>
+                                <p:inputText value="#{empleadoBean.empleado.telefonoEmpleado}"/>
+                            <p:outputLabel value="Email"/>
+                                <p:inputText value="#{empleadoBean.empleado.correoEmpleado}"/>
+                            <p:outputLabel value="USER"/>
+                                <p:inputText value="#{empleadoBean.empleado.userEmp}"/>
+                            <p:outputLabel value="PASS"/>
+                                <p:inputText value="#{empleadoBean.empleado.passEmp}"/>    
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" actionListener="#{empleadoBean.ingresarEmpleado()}" oncomplete="PF('dialogNuevoEmpleado').hide();" update=":formMostrarEmpleados:tableEmpleados"/>
+                        <p:commandButton value="Cancelar" onclick="PF('dialogNuevoEmpleado').hide();"/>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formModificarEmpleado">
+                    <p:dialog id="dlgNuevoEmpleado" header="Información Empleado" widgetVar="dialogModificarEmpleado" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Identificación"/>
+                                <p:inputText value="#{empleadoBean.empleado.identificacionEmpleado}"/>
+                            <p:outputLabel value="Nombres"/>
+                                <p:inputText value="#{empleadoBean.empleado.nombresEmpleado}"/>
+                            <p:outputLabel value="Apellidos"/>
+                                <p:inputText value="#{empleadoBean.empleado.apellidosEmpleado}"/>
+                            <p:outputLabel value="Departamento"/>
+                                <p:inputText value="#{empleadoBean.empleado.idDepartamento}"/>
+                            <p:outputLabel value="Ciudad"/>
+                                <p:inputText value="#{empleadoBean.empleado.idCiudad}"/>
+                            <p:outputLabel value="Dirección"/>
+                                <p:inputText value="#{empleadoBean.empleado.direccionEmpleado}"/>
+                            <p:outputLabel value="Teléfono"/>
+                                <p:inputText value="#{empleadoBean.empleado.telefonoEmpleado}"/>
+                            <p:outputLabel value="Email"/>
+                                <p:inputText value="#{empleadoBean.empleado.correoEmpleado}"/>
+                            <p:outputLabel value="USER"/>
+                                <p:inputText value="#{empleadoBean.empleado.userEmp}"/>
+                            <p:outputLabel value="PASS"/>
+                                <p:inputText value="#{empleadoBean.empleado.passEmp}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Modificar" actionListener="#{empleadoBean.actualizarEmpleado()}" oncomplete="PF('dialogModificarEmpleado').hide();" update=":formMostrarEmpleados:tableEmpleados"/>
+                        <p:commandButton value="Cancelar" onclick="PF('dialogModificarEmpleado').hide();"/>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formEliminarEmpleado">
+                    <p:dialog id="dlgEliminarEmpleado" header="Información Empleado" widgetVar="dialogEliminarEmpleado" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <h:outputText value="¿Desea Eliminar esta Empleado? "/>
+                        <p:commandButton value="Si" actionListener="#{empleadoBean.eliminarEmpleado()}" oncomplete="PF('dialogEliminarEmpleado').hide();" update=":formMostrarEmpleados:tableEmpleados"/>
+                        <p:commandButton value="No" onclick="PF('dialogEliminarEmpleado').hide();"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

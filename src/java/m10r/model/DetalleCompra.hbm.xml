@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 29, 2018 3:25:42 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="m10r.model.DetalleCompra" table="detalleCompra" catalog="moto10racingHBT" optimistic-lock="version">
+        <id name="idDetalleCompra" type="java.lang.Integer">
+            <column name="idDetalleCompra" />
+            <generator class="identity" />
+        </id>
+        <property name="idCompra" type="int">
+            <column name="idCompra" not-null="true" />
+        </property>
+        <property name="idProducto" type="int">
+            <column name="idProducto" not-null="true" />
+        </property>
+        <property name="codigoProducto" type="string">
+            <column name="codigoProducto" length="100" not-null="true" />
+        </property>
+        <property name="nombreProducto" type="string">
+            <column name="nombreProducto" length="100" not-null="true" />
+        </property>
+        <property name="valorCompraProducto" type="float">
+            <column name="valorCompraProducto" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="valorVentaProducto" type="float">
+            <column name="valorVentaProducto" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="unidadesCompradas" type="int">
+            <column name="unidadesCompradas" not-null="true" />
+        </property>
+        <property name="totalDetalleCompra" type="float">
+            <column name="totalDetalleCompra" precision="12" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

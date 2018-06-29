@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 29, 2018 3:25:42 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="m10r.model.EmpleadoRoles" table="empleado_Roles" catalog="moto10racingHBT" optimistic-lock="version">
+        <id name="idEmpleadoRoles" type="java.lang.Integer">
+            <column name="idEmpleado_Roles" />
+            <generator class="identity" />
+        </id>
+        <property name="idEmpelado" type="int">
+            <column name="idEmpelado" not-null="true" />
+        </property>
+        <property name="idRoles" type="int">
+            <column name="idRoles" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
