@@ -31,10 +31,14 @@
                             <h:outputText value="#{pro.stockProducto}"/> Unidades
                         </p:column>
                         <p:column headerText="Valor Compra" style="text-align:center">
-                            $ <h:outputText value="#{pro.valorCompraProducto}"/>
+                            <p:outputLabel value="#{pro.valorCompraProducto}">
+                                    <f:convertNumber type="currency" currencySymbol="$ " minFractionDigits="0"/>
+                            </p:outputLabel>
                         </p:column>
                         <p:column headerText="Valor Venta" style="text-align:center">
-                            $ <h:outputText value="#{pro.valorVentaProducto}"/>
+                            <p:outputLabel value="#{pro.valorVentaProducto}">
+                                    <f:convertNumber type="currency" currencySymbol="$ " minFractionDigits="0"/>
+                            </p:outputLabel>
                         </p:column>
                         <p:column headerText="Stock Mínimo" style="text-align:center">
                             <h:outputText value="#{pro.stockMinimo}"/> Unidades
