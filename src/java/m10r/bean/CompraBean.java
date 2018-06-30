@@ -10,8 +10,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import m10r.dao.CompraDao;
 import m10r.dao.PersonaDao;
 import m10r.dao.ProductoDao;
+import m10r.imp.CompraDaoImp;
 import m10r.imp.PersonaDaoImp;
 import m10r.imp.ProductoDaoImp;
 import m10r.model.Compra;
@@ -49,6 +51,10 @@ public class CompraBean implements Serializable {
     private Compra compra;
     
     private String unidadesCompradasPorCodigo;
+    
+    private Long numeroCompra;
+    private BigDecimal totalCompraFactura;
+    private float totalCompraFacturaCompra;
 
     public CompraBean() {
         this.listaDetalleCompra = new ArrayList<>();
@@ -125,6 +131,30 @@ public class CompraBean implements Serializable {
 
     public void setUnidadesCompradasPorCodigo(String unidadesCompradasPorCodigo) {
         this.unidadesCompradasPorCodigo = unidadesCompradasPorCodigo;
+    }
+
+    public Long getNumeroCompra() {
+        return numeroCompra;
+    }
+
+    public void setNumeroCompra(Long numeroCompra) {
+        this.numeroCompra = numeroCompra;
+    }
+
+    public BigDecimal getTotalCompraFactura() {
+        return totalCompraFactura;
+    }
+
+    public void setTotalCompraFactura(BigDecimal totalCompraFactura) {
+        this.totalCompraFactura = totalCompraFactura;
+    }
+
+    public float getTotalCompraFacturaCompra() {
+        return totalCompraFacturaCompra;
+    }
+
+    public void setTotalCompraFacturaCompra(float totalCompraFacturaCompra) {
+        this.totalCompraFacturaCompra = totalCompraFacturaCompra;
     }
     
     public void agregarDatosPersona(Integer idPersona){
@@ -292,15 +322,16 @@ public class CompraBean implements Serializable {
     
     public void calcularValorTotalCompra(){
         
-        BigDecimal totalVentaCompra = new BigDecimal("0");
+        this.totalCompraFactura = new BigDecimal("0");
         
         try{
             for (DetalleCompra detalleCompraTotal : listaDetalleCompra) {
                 BigDecimal totalVentaPorProducto = (new BigDecimal(detalleCompraTotal.getValorCompraProducto()).multiply(new BigDecimal(detalleCompraTotal.getUnidadesCompradas())));
                 detalleCompraTotal.setTotalDetalleCompra(totalVentaPorProducto.floatValue());
-                totalVentaCompra = totalVentaCompra.add(totalVentaPorProducto);
+                totalCompraFactura = totalCompraFactura.add(totalVentaPorProducto);
             }
-            this.compra.setTotalCompra(totalVentaCompra.floatValue());
+            this.compra.setTotalCompra(totalCompraFactura.floatValue());
+            totalCompraFacturaCompra = (totalCompraFactura.floatValue());
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -340,6 +371,38 @@ public class CompraBean implements Serializable {
     public void onRowCancel(RowEditEvent event) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"","Sin Modificación"));
         
+    }
+    
+    public void numeracionCompra(){
+        this.sessionCompra = null;
+        this.transactionCompra = null;
+        
+        try {
+            this.sessionCompra = HibernateUtil.getSessionFactory().openSession();
+            this.transactionCompra = this.sessionCompra.beginTransaction();
+            CompraDao cDao = new CompraDaoImp();
+            this.numeroCompra = cDao.obtenerTotalRegistrosCompra(this.sessionCompra);
+            
+            if (this.numeroCompra <=0 || this.numeroCompra == null){
+                this.numeroCompra = Long.valueOf("1");
+            } else {
+                this.compra = cDao.obtenerUltimoRegistroCompra(sessionCompra);
+                this.numeroCompra = Long.valueOf(this.compra.getIdCompra()+1);
+                
+                this.totalCompraFactura = new BigDecimal("0");
+                
+            }
+            this.transactionCompra.commit();
+        } catch (Exception e){
+            if (this.transactionCompra!=null){
+                this.transactionCompra.rollback();
+            }
+            System.out.println(e.getMessage());
+        } finally {
+            if (this.sessionCompra!=null){
+                this.sessionCompra.close();
+            }
+        }
     }
     
 }

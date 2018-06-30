@@ -13,6 +13,12 @@
             <ui:define name="content">
                 <h3>FACTURA DE COMPRA</h3>
                 <h3></h3>
+                <h:form>
+                    <h:panelGrid width="1010px" style="margin: 0 auto;">
+                        <p:commandButton value="Nueva Compra" style="width: 150px; height: 60px; color: orange" actionListener="#{compraBean.numeracionCompra()}" update=":formFacturaCompra"/>
+                    </h:panelGrid>
+                </h:form>
+                <h3></h3>
                 <h:form id="formFacturaCompra">
                   <p:growl id="mensajesCompra" autoUpdate="true" showDetail="true" life="1500"/>
                     <p:panel style="width: 1111px; margin: 0 auto; text-align: center">
@@ -41,7 +47,7 @@
                             <p:layoutUnit id="layoutNumeroFactura" position="east" style=" padding: 5px; text-align: center; font-size: 15px" size="150">
                                 <h:panelGrid columns="1" style="font-size: 22px; font-weight: normal; margin-top: 30px; margin: 0 auto">
                                     <h6>NUMERO</h6>
-                                    <p:outputLabel value="007"/>
+                                    <p:outputLabel value="#{compraBean.numeroCompra}"/>
                                 </h:panelGrid>
                             </p:layoutUnit>
                         </p:layout>
@@ -95,7 +101,7 @@
                         </p:dataTable>
                         <h:panelGrid id="gridTotalFactura" columns="2" style="font-size: 15px; margin: 0 auto">
                             <h3>Total Compra</h3> 
-                            <p:outputLabel value="#{compraBean.compra.totalCompra}" style="font-size: 27px; margin: 0 auto">
+                            <p:outputLabel value="#{compraBean.totalCompraFacturaCompra}" style="font-size: 27px; margin: 0 auto">
                                     <f:convertNumber type="currency" currencySymbol="$ " minFractionDigits="0"/>
                                 </p:outputLabel>
                         </h:panelGrid>
