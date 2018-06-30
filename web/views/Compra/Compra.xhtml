@@ -20,7 +20,7 @@
                             <p:layoutUnit id="layoutCompra" position="center" style="padding: 5px; text-align: justify; font-size: 15px; size: 300px">
                                 <h:panelGrid id="gridBuscarProveedor" columns="5">
                                     <p:outputLabel value="Proveedor: " style="font-size: 16px; font-weight: bold"/>
-                                        <p:inputText id="inpTexProveedor" value="#{compraBean.identificacionPersona}" size="27" placeholder="Digite C.C o Nit">
+                                    <p:inputText id="inpTexProveedor" value="#{compraBean.identificacionPersona}" size="27" placeholder="Digite C.C o Nit"  converter="#{Integer}" converterMessage="Valor Erroneo">
                                             <p:ajax event="keyup" delay="1000" listener="#{compraBean.agregarDatosPersonaPorIdentificacion()}" update=":formFacturaCompra:gridDatosProveedor :formFacturaCompra:inpTexProveedor"/>
                                         </p:inputText> 
                                             <p:commandButton value="+" oncomplete="PF('dialogDatosProveedores').show();" update=":formFacturaCompra:dialogProveedores"/>
@@ -52,7 +52,9 @@
                                 </p:inputText>
                             <p:commandButton value="+" oncomplete="PF('dialogDatosProductos').show();" update=":formFacturaCompra:dialogProductos"/>
                         </h:panelGrid>
-                        <p:dataTable id="tableProductoFactura" value="#{compraBean.listaDetalleCompra}" var="pro">
+                        <p:dataTable id="tableProductoFactura" editable="true" value="#{compraBean.listaDetalleCompra}" var="pro" rowIndexVar="rowIndex">
+                                <p:ajax event="rowEdit" listener="#{compraBean.onRowEdit}" update=":formFacturaCompra:tableProductoFactura :formFacturaCompra:gridTotalFactura"/>
+                                <p:ajax event="rowEditCancel" listener="#{compraBean.onRowCancel}" update=":formFacturaCompra:tableProductoFactura :formFacturaCompra:gridTotalFactura"/>
                             <p:column headerText="Código">
                                 <h:outputText value="#{pro.codigoProducto}"/>
                             </p:column>
@@ -69,13 +71,26 @@
                                     <f:convertNumber type="currency" currencySymbol="$ " minFractionDigits="0"/>
                                 </p:outputLabel>
                             </p:column>
-                            <p:column headerText="Unidades Compradas">
-                                <h:outputText value="#{pro.unidadesCompradas}"/>
+                                <p:column headerText="Unidades Compradas">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{pro.unidadesCompradas}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <h:inputText value="#{pro.unidadesCompradas}" required="true" requiredMessage="Digite un Valor Numérico" converter="#{Integer}" converterMessage="Valor Erroneo" validatorMessage="Valor Erroneo">
+                                                <f:validateLongRange minimum="1"/>
+                                            </h:inputText>
+                                        </f:facet>    
+                                    </p:cellEditor>
+                                <p:rowEditor/>
                             </p:column>
                             <p:column headerText="Total">
                                 <p:outputLabel value="#{pro.totalDetalleCompra}">
                                     <f:convertNumber type="currency" currencySymbol="$ " minFractionDigits="0"/>
                                 </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Eliminar" style="width:88px">
+                                <p:commandLink value=" X" style="font-size: 22px ; text-decoration: none ; color: red" actionListener="#{compraBean.eliminarProducto(pro.codigoProducto, rowIndex)}" update=":formFacturaCompra:tableProductoFactura :formFacturaCompra:gridTotalFactura"/>
                             </p:column>
                         </p:dataTable>
                         <h:panelGrid id="gridTotalFactura" columns="2" style="font-size: 15px; margin: 0 auto">

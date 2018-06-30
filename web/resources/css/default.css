@@ -42,6 +42,10 @@ h6 {
     
 }
 
+.ui-datatable .ui-row-editor .ui-icon-pencil {
+    
+}
+
 a:link, a:visited {
   color: #045491;
   font-weight : bold;

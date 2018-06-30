@@ -22,6 +22,7 @@ import m10r.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -42,13 +43,12 @@ public class CompraBean implements Serializable {
     private String codigoProducto;
     
     private List<DetalleCompra> listaDetalleCompra;
-    private float totalDetalleCompra;
     
-    private Integer unidadesCompradas;
+    private String unidadesCompradas;
     private String productoSeleccionado;
     private Compra compra;
     
-    private Integer unidadesCompradasPorCodigo;
+    private String unidadesCompradasPorCodigo;
 
     public CompraBean() {
         this.listaDetalleCompra = new ArrayList<>();
@@ -95,11 +95,11 @@ public class CompraBean implements Serializable {
         this.listaDetalleCompra = listaDetalleCompra;
     }
 
-    public Integer getUnidadesCompradas() {
+    public String getUnidadesCompradas() {
         return unidadesCompradas;
     }
 
-    public void setUnidadesCompradas(Integer unidadesCompradas) {
+    public void setUnidadesCompradas(String unidadesCompradas) {
         this.unidadesCompradas = unidadesCompradas;
     }
 
@@ -119,11 +119,11 @@ public class CompraBean implements Serializable {
         this.compra = compra;
     }
 
-    public Integer getUnidadesCompradasPorCodigo() {
+    public String getUnidadesCompradasPorCodigo() {
         return unidadesCompradasPorCodigo;
     }
 
-    public void setUnidadesCompradasPorCodigo(Integer unidadesCompradasPorCodigo) {
+    public void setUnidadesCompradasPorCodigo(String unidadesCompradasPorCodigo) {
         this.unidadesCompradasPorCodigo = unidadesCompradasPorCodigo;
     }
     
@@ -195,20 +195,29 @@ public class CompraBean implements Serializable {
         this.transactionCompra=null;
         
         try {
+            
+            if (!(this.unidadesCompradas.matches("[0-9]*")) || this.unidadesCompradas.equals("0") || this.unidadesCompradas.equals("")){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"","Valor Incorrecto"));
+                this.unidadesCompradas = "";
+            
+            } else {
+                
             this.sessionCompra = HibernateUtil.getSessionFactory().openSession();
             ProductoDao pDao = new ProductoDaoImp();
             this.transactionCompra = this.sessionCompra.beginTransaction();
             this.producto = pDao.obtenerProductoPorCodigoProducto(this.sessionCompra, this.productoSeleccionado);
             
-            this.listaDetalleCompra.add(new DetalleCompra(0, 0, this.producto.getCodigoProducto(), this.producto.getNombreProducto(), this.producto.getValorCompraProducto(), this.producto.getValorVentaProducto(), this.unidadesCompradas, (this.unidadesCompradas.floatValue()*this.producto.getValorCompraProducto())));
+            this.listaDetalleCompra.add(new DetalleCompra(0, 0, this.producto.getCodigoProducto(), this.producto.getNombreProducto(), this.producto.getValorCompraProducto(), this.producto.getValorVentaProducto(), Integer.parseInt(this.unidadesCompradas), (Float.parseFloat(this.unidadesCompradas)*this.producto.getValorCompraProducto())));
             
             this.transactionCompra.commit();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"","Producto Agregado"));
             
+            this.unidadesCompradas="";
+            
             this.calcularValorTotalCompra();
-            
-            this.unidadesCompradas=null;
-            
+                
+            }
+             
         } catch (Exception e) {
             if (this.transactionCompra!=null){
                 System.out.println(e.getMessage());
@@ -226,8 +235,6 @@ public class CompraBean implements Serializable {
     public void mostrarDatosCantidadProductoPorCodigo(){
         this.sessionCompra=null;
         this.transactionCompra=null;
-        
-        totalDetalleCompra = 0;
         
         try {
             if (this.codigoProducto==null){
@@ -264,14 +271,22 @@ public class CompraBean implements Serializable {
     }
     
     public void agregarDatosProductoPorCodigoProductoRead(){
-                
-        this.listaDetalleCompra.add(new DetalleCompra(0, 0, this.producto.getCodigoProducto(), this.producto.getNombreProducto(), this.producto.getValorCompraProducto(), this.producto.getValorVentaProducto(), this.unidadesCompradasPorCodigo, (this.unidadesCompradasPorCodigo.floatValue()*this.producto.getValorCompraProducto())));
+            
+            if (!(this.unidadesCompradasPorCodigo.matches("[0-9]*")) || this.unidadesCompradasPorCodigo.equals("0") || this.unidadesCompradasPorCodigo.equals("")){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"","Valor Incorrecto"));
+                this.unidadesCompradasPorCodigo = "";
+            
+            } else {
         
-        this.unidadesCompradasPorCodigo=null;
+        this.listaDetalleCompra.add(new DetalleCompra(0, 0, this.producto.getCodigoProducto(), this.producto.getNombreProducto(), this.producto.getValorCompraProducto(), this.producto.getValorVentaProducto(), Integer.parseInt(this.unidadesCompradasPorCodigo), (Float.parseFloat(this.unidadesCompradasPorCodigo)*this.producto.getValorCompraProducto())));
+        
+        this.unidadesCompradasPorCodigo="";
                 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"","Producto Agregado"));
         
         this.calcularValorTotalCompra();
+        
+            }
         
     }
     
@@ -289,6 +304,41 @@ public class CompraBean implements Serializable {
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
+        
+    }
+    
+    public void eliminarProducto (String codigoProducto, Integer posicionSeleccionada){
+        
+        try {
+            
+            int i=0;
+            
+            for (DetalleCompra detalleProducto : this.listaDetalleCompra){
+                if (detalleProducto.getCodigoProducto().equals(codigoProducto) && posicionSeleccionada.equals(i)){
+                    this.listaDetalleCompra.remove(i);
+                    break;
+                }
+                i++;
+            }
+            
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"","Producto Eliminado"));
+        
+        this.calcularValorTotalCompra();
+        
+        } catch (Exception e){
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"","Producto Eliminado"));
+        
+        }
+    }
+    
+    public void onRowEdit(RowEditEvent event) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"","Cantidad Modificada"));
+        this.calcularValorTotalCompra();
+    }
+     
+    public void onRowCancel(RowEditEvent event) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"","Sin Modificación"));
         
     }
     
