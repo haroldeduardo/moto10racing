@@ -73,27 +73,40 @@
                                 <h:outputText value="#{pro.nombreProducto}"/>
                             </p:column>
                             <p:column headerText="Valor Compra">
-                                <p:outputLabel value="#{pro.valorCompraProducto}">
-                                    <f:convertNumber type="currency" currencySymbol="$ " minFractionDigits="0"/>
-                                </p:outputLabel>
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{pro.valorCompraProducto}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <h:inputText value="#{pro.valorCompraProducto}" required="true" requiredMessage="Digite un Valor Numérico" converter="#{Integer}" converterMessage="Valor Erroneo" validatorMessage="Valor Erroneo">
+                                            <f:validateLongRange minimum="1"/>
+                                        </h:inputText>
+                                    </f:facet>    
+                                </p:cellEditor>
                             </p:column>
                             <p:column headerText="Valor Venta">
-                                <p:outputLabel value="#{pro.valorVentaProducto}">
-                                    <f:convertNumber type="currency" currencySymbol="$ " minFractionDigits="0"/>
-                                </p:outputLabel>
-                            </p:column>
-                                <p:column headerText="Unidades Compradas">
-                                    <p:cellEditor>
-                                        <f:facet name="output">
-                                            <h:outputText value="#{pro.unidadesCompradas}"/>
-                                        </f:facet>
-                                        <f:facet name="input">
-                                            <h:inputText value="#{pro.unidadesCompradas}" required="true" requiredMessage="Digite un Valor Numérico" converter="#{Integer}" converterMessage="Valor Erroneo" validatorMessage="Valor Erroneo">
-                                                <f:validateLongRange minimum="1"/>
-                                            </h:inputText>
-                                        </f:facet>    
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{pro.valorVentaProducto}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <h:inputText value="#{pro.valorVentaProducto}" required="true" requiredMessage="Digite un Valor Numérico" converter="#{Integer}" converterMessage="Valor Erroneo" validatorMessage="Valor Erroneo">
+                                            <f:validateLongRange minimum="1"/>
+                                        </h:inputText>
+                                    </f:facet>    
                                     </p:cellEditor>
-                                <p:rowEditor/>
+                            </p:column>
+                            <p:column headerText="Unidades Compradas">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{pro.unidadesCompradas}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <h:inputText value="#{pro.unidadesCompradas}" required="true" requiredMessage="Digite un Valor Numérico" converter="#{Integer}" converterMessage="Valor Erroneo" validatorMessage="Valor Erroneo">
+                                            <f:validateLongRange minimum="1"/>
+                                        </h:inputText>
+                                    </f:facet>    
+                                </p:cellEditor>
                             </p:column>
                             <p:column headerText="Total">
                                 <p:outputLabel value="#{pro.totalDetalleCompra}">
@@ -102,6 +115,7 @@
                             </p:column>
                             <p:column headerText="Eliminar" style="width:88px">
                                 <p:commandLink value=" X" style="font-size: 22px ; text-decoration: none ; color: red" actionListener="#{compraBean.eliminarProducto(pro.codigoProducto, rowIndex)}" update=":formFacturaCompra:tableProductoFactura :formFacturaCompra:gridTotalFactura"/>
+                            <p:rowEditor/>
                             </p:column>
                         </p:dataTable>
                         <h:panelGrid id="gridTotalFactura" columns="2" style="font-size: 15px; margin: 0 auto">

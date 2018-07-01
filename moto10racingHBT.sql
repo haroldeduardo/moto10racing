@@ -535,18 +535,6 @@ DEFAULT CHARACTER SET = latin1;
 
 -- -----------------------------------------------------
 -- Table `moto10racingHBT`.`detalleCompra`
-
-/*DELIMITER $$
-create trigger actualizarProducto before insert
-on detalleCompra
-for each row
-begin
-declare stockActual INT;
-set @stockActual = (select stockProducto from producto where idProducto = new.idProducto);
-update Producto
-set stockProducto = @stockActual+new.unidadesCompradas where idProducto = new.idProducto;
-end; $$*/
-
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `moto10racingHBT`.`detalleCompra` (
   `idDetalleCompra` INT(30) NOT NULL AUTO_INCREMENT,
