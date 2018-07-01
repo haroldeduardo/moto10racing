@@ -4,6 +4,8 @@ package m10r.bean;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -62,6 +64,9 @@ public class CompraBean implements Serializable {
     
     private Empleado empleado;
     private TipoTransaccion tipoTransaccion;
+    
+    private boolean enabled;
+    private String fechaSistema;
 
     public CompraBean() {
         this.compra = new Compra();
@@ -181,6 +186,30 @@ public class CompraBean implements Serializable {
 
     public void setTipoTransaccion(TipoTransaccion tipoTransaccion) {
         this.tipoTransaccion = tipoTransaccion;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+    
+    public void enableBoton(){
+        enabled = true;
+    }
+    
+    public void disableBoton(){
+        enabled = false;
+    }
+
+    public String getFechaSistema() {
+        Calendar dateS = new GregorianCalendar();
+        
+        int ano = dateS.get(Calendar.YEAR);
+        int mes = dateS.get(Calendar.MONTH);
+        int dia = dateS.get(Calendar.DAY_OF_WEEK);
+        
+        this.fechaSistema = (dia + "/" + (mes+1) + "/" + ano);
+        
+        return fechaSistema;
     }
     
     public void agregarDatosPersona(Integer idPersona){
@@ -437,6 +466,8 @@ public class CompraBean implements Serializable {
         this.listaDetalleCompra = new ArrayList<>();
         this.numeroCompra = null;
         this.totalCompraFacturaCompra = 0;
+        
+        this.disableBoton();
     }
     
     public void ingresarCompraFULL(){

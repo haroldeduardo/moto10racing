@@ -15,7 +15,7 @@
                 <h3></h3>
                 <h:form>
                     <h:panelGrid width="1010px" style="margin: 0 auto;">
-                        <p:commandButton value="Nueva Compra" style="width: 150px; height: 60px; color: orange" actionListener="#{compraBean.numeracionCompra()}" update=":formFacturaCompra"/>
+                        <p:commandButton value="Nueva Compra" style="font-family: sans-serif; font-size: 22px; width: 198px; height: 55px; color: coral" actionListener="#{compraBean.numeracionCompra()}" update=":formFacturaCompra" action="#{compraBean.enableBoton()}"/>
                     </h:panelGrid>
                 </h:form>
                 <h3></h3>
@@ -24,14 +24,19 @@
                     <p:panel style="width: 1111px; margin: 0 auto; text-align: center">
                         <p:layout id="layoutFacturaCompra" style="width: 100%; height: 85px">
                             <p:layoutUnit id="layoutCompra" position="center" style="padding: 5px; text-align: justify; font-size: 15px; size: 300px">
-                                <h:panelGrid id="gridBuscarProveedor" columns="5">
+                                <h:panelGrid id="gridBuscarEmpPro" columns="8">
                                     <p:outputLabel value="Proveedor: " style="font-size: 16px; font-weight: bold"/>
-                                    <p:inputText id="inpTexProveedor" value="#{compraBean.identificacionPersona}" size="27" placeholder="Digite C.C o Nit"  converter="#{Integer}" converterMessage="Valor Erroneo">
+                                        <p:inputText id="inpTexProveedor" value="#{compraBean.identificacionPersona}" size="23" placeholder="----- Ingrese C.C o Nit -----"  converter="#{Integer}" converterMessage="Valor Erroneo" disabled="#{!compraBean.enabled}">
                                             <p:ajax event="keyup" delay="1000" listener="#{compraBean.agregarDatosPersonaPorIdentificacion()}" update=":formFacturaCompra:gridDatosProveedor :formFacturaCompra:inpTexProveedor"/>
                                         </p:inputText> 
-                                            <p:commandButton value="+" oncomplete="PF('dialogDatosProveedores').show();" update=":formFacturaCompra:dialogProveedores"/>
+                                            <p:commandButton value="+" oncomplete="PF('dialogDatosProveedores').show();" update=":formFacturaCompra:dialogProveedores" disabled="#{!compraBean.enabled}"/>
+                                    <p:outputLabel value="Empleado: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:inputText id="inpTexEmpleado" value="#{compraBean.identificacionPersona}" size="24" placeholder="----- Ingrese Empleado -----"  converter="#{Integer}" converterMessage="Valor Erroneo" disabled="#{!compraBean.enabled}">
+                                            <p:ajax event="keyup" delay="1000" listener="#{compraBean.agregarDatosPersonaPorIdentificacion()}" update=":formFacturaCompra:gridDatosProveedor :formFacturaCompra:inpTexEmpleado"/>
+                                        </p:inputText> 
+                                            <p:commandButton value="+" oncomplete="PF('dialogDatosProveedores').show();" update=":formFacturaCompra:dialogProveedores" disabled="#{!compraBean.enabled}"/>
                                     <p:outputLabel value="Fecha: " style="font-size: 16px; font-weight: bold"/>
-                                        <p:inputText size="16"/>
+                                    <p:outputLabel value="#{compraBean.fechaSistema}"/>        
                                 </h:panelGrid>
                                 <h:panelGrid id="gridDatosProveedor" columns="10">
                                     <p:outputLabel value="Nombres: " style="font-size: 16px; font-weight: bold"/>
@@ -53,10 +58,10 @@
                         </p:layout>
                         <h:panelGrid id="gridBuscarProducto" columns="3">
                             <p:outputLabel value="Código de Producto: " style="font-size: 16px; font-weight: bold"/>
-                                <p:inputText id="inpTexProducto" value="#{compraBean.codigoProducto}" size="27" placeholder="Digite Código Producto">
+                                <p:inputText id="inpTexProducto" value="#{compraBean.codigoProducto}" size="27" placeholder="---- Digite Código Producto ----" disabled="#{!compraBean.enabled}">
                                     <p:ajax event="keyup" delay="1000" listener="#{compraBean.mostrarDatosCantidadProductoPorCodigo()}" update=":formFacturaCompra:gridBuscarProducto"/>
                                 </p:inputText>
-                            <p:commandButton value="+" oncomplete="PF('dialogDatosProductos').show();" update=":formFacturaCompra:dialogProductos"/>
+                            <p:commandButton value="+" oncomplete="PF('dialogDatosProductos').show();" update=":formFacturaCompra:dialogProductos" disabled="#{!compraBean.enabled}"/>
                         </h:panelGrid>
                         <p:dataTable id="tableProductoFactura" editable="true" value="#{compraBean.listaDetalleCompra}" var="pro" rowIndexVar="rowIndex">
                                 <p:ajax event="rowEdit" listener="#{compraBean.onRowEdit}" update=":formFacturaCompra:tableProductoFactura :formFacturaCompra:gridTotalFactura"/>
@@ -106,9 +111,9 @@
                                 </p:outputLabel>
                         </h:panelGrid>
                             <h6></h6>
-                            <p:commandButton value="Aceptar" style="width: 100px; height: 38px" actionListener="#{compraBean.ingresarCompraFULL()}" update=":formFacturaCompra"/>
-                            <p:commandButton value="Imprimir" style="width: 100px; height: 38px"/>
-                            <p:commandButton value="Cancelar" style="width: 100px; height: 38px" action="#{compraBean.limpiarFacturaCompra()}" update=":formFacturaCompra"/>
+                            <p:commandButton value="Aceptar" style="width: 100px; height: 38px" actionListener="#{compraBean.ingresarCompraFULL()}" update=":formFacturaCompra" disabled="#{!compraBean.enabled}" action="#{compraBean.disableBoton()}"/>
+                            <p:commandButton value="Imprimir" style="width: 100px; height: 38px" disabled="#{!compraBean.enabled}"/>
+                            <p:commandButton value="Cancelar" style="width: 100px; height: 38px" action="#{compraBean.limpiarFacturaCompra()}" update=":formFacturaCompra" disabled="#{!compraBean.enabled}"/>
                     </p:panel>
                     <p:dialog id="dialogProveedores" widgetVar="dialogDatosProveedores" modal="true" resizable="true" showEffect="explode" hideEffect="explode" style="text-align:center">
                             <p:dataTable id="tablePersonas" value="#{personaBean.listaPersonas}" var="per" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">

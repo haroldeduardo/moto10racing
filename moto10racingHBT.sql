@@ -262,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `moto10racingHBT`.`Compra` (
   `idPersona` INT(30) NOT NULL,
   `totalCompra` FLOAT NOT NULL,
   `idTipoTransaccion` INT(30) NOT NULL,
-  `fechaCompra` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `fechaCompra` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (`idCompra`),
   UNIQUE INDEX `idCompra_UNIQUE` (`idCompra` ASC),
   INDEX `idEmpleadoCompra_idx` (`idEmpleado` ASC),
@@ -460,7 +460,7 @@ CREATE TABLE IF NOT EXISTS `moto10racingHBT`.`Venta` (
   `totalVenta` FLOAT NOT NULL,
   `totalDescuentoVenta` FLOAT NULL,
   `idTipoTransaccion` INT(30) NOT NULL,
-  `fechaVenta` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `fechaVenta` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (`idVenta`),
   UNIQUE INDEX `idVenta_UNIQUE` (`idVenta` ASC),
   INDEX `idEmpleadoVenta_idx` (`idEmpleado` ASC),
@@ -535,6 +535,18 @@ DEFAULT CHARACTER SET = latin1;
 
 -- -----------------------------------------------------
 -- Table `moto10racingHBT`.`detalleCompra`
+
+/*DELIMITER $$
+create trigger actualizarProducto before insert
+on detalleCompra
+for each row
+begin
+declare stockActual INT;
+set @stockActual = (select stockProducto from producto where idProducto = new.idProducto);
+update Producto
+set stockProducto = @stockActual+new.unidadesCompradas where idProducto = new.idProducto;
+end; $$*/
+
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `moto10racingHBT`.`detalleCompra` (
   `idDetalleCompra` INT(30) NOT NULL AUTO_INCREMENT,

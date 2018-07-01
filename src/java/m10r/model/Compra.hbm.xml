@@ -24,7 +24,7 @@
             <column name="idTipoTransaccion" not-null="true" />
         </property>
         <property name="fechaCompra" type="timestamp">
-            <column name="fechaCompra" length="19" />
+            <column name="fechaCompra" length="19" not-null="true"/>
         </property>
     </class>
 </hibernate-mapping>
