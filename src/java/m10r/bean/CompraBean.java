@@ -13,13 +13,17 @@ import javax.faces.view.ViewScoped;
 import m10r.dao.CompraDao;
 import m10r.dao.PersonaDao;
 import m10r.dao.ProductoDao;
+import m10r.dao.DetalleCompraDao;
 import m10r.imp.CompraDaoImp;
+import m10r.imp.DetalleCompraDaoImp;
 import m10r.imp.PersonaDaoImp;
 import m10r.imp.ProductoDaoImp;
 import m10r.model.Compra;
 import m10r.model.DetalleCompra;
+import m10r.model.Empleado;
 import m10r.model.Persona;
 import m10r.model.Producto;
+import m10r.model.TipoTransaccion;
 import m10r.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -55,10 +59,16 @@ public class CompraBean implements Serializable {
     private Long numeroCompra;
     private BigDecimal totalCompraFactura;
     private float totalCompraFacturaCompra;
+    
+    private Empleado empleado;
+    private TipoTransaccion tipoTransaccion;
 
     public CompraBean() {
-        this.listaDetalleCompra = new ArrayList<>();
         this.compra = new Compra();
+        this.listaDetalleCompra = new ArrayList<>();
+        this.empleado = new Empleado();
+        this.persona = new Persona();
+        this.tipoTransaccion = new TipoTransaccion();
     }
 
     public Persona getPersona() {
@@ -155,6 +165,22 @@ public class CompraBean implements Serializable {
 
     public void setTotalCompraFacturaCompra(float totalCompraFacturaCompra) {
         this.totalCompraFacturaCompra = totalCompraFacturaCompra;
+    }
+
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
+    public TipoTransaccion getTipoTransaccion() {
+        return tipoTransaccion;
+    }
+
+    public void setTipoTransaccion(TipoTransaccion tipoTransaccion) {
+        this.tipoTransaccion = tipoTransaccion;
     }
     
     public void agregarDatosPersona(Integer idPersona){
@@ -398,6 +424,61 @@ public class CompraBean implements Serializable {
                 this.transactionCompra.rollback();
             }
             System.out.println(e.getMessage());
+        } finally {
+            if (this.sessionCompra!=null){
+                this.sessionCompra.close();
+            }
+        }
+    }
+    
+    public void limpiarFacturaCompra(){
+        this.persona = new Persona();
+        this.compra = new Compra ();
+        this.listaDetalleCompra = new ArrayList<>();
+        this.numeroCompra = null;
+        this.totalCompraFacturaCompra = 0;
+    }
+    
+    public void ingresarCompraFULL(){
+        this.sessionCompra = null;
+        this.transactionCompra = null;
+        this.empleado.setIdEmpleado(1);
+        this.tipoTransaccion.setIdTipoTransaccion(1);
+        
+        try {
+                this.sessionCompra = HibernateUtil.getSessionFactory().openSession();
+                ProductoDao pDao = new ProductoDaoImp();
+                CompraDao cDao = new CompraDaoImp();
+                DetalleCompraDao dcDao = new DetalleCompraDaoImp();
+                
+                this.transactionCompra = this.sessionCompra.beginTransaction();
+                
+                this.compra.setNumeroCompra(Long.toString(this.numeroCompra));
+                this.compra.setIdEmpleado(this.empleado.getIdEmpleado());
+                this.compra.setIdPersona(this.persona.getIdPersona());
+                this.compra.setIdTipoTransaccion(this.tipoTransaccion.getIdTipoTransaccion());
+                
+                cDao.ingresarCompra(this.sessionCompra, this.compra);
+           
+                this.compra = cDao.obtenerUltimoRegistroCompra(this.sessionCompra);
+                
+                for (DetalleCompra detalleCompraTotal : listaDetalleCompra){
+                    this.producto = pDao.obtenerProductoPorCodigoProducto(this.sessionCompra, detalleCompraTotal.getCodigoProducto());
+                    detalleCompraTotal.setIdCompra(this.compra.getIdCompra());
+                    detalleCompraTotal.setIdProducto(this.producto.getIdProducto());
+                    
+                    dcDao.ingresarDetalleCompra(this.sessionCompra, detalleCompraTotal);
+                }
+                this.transactionCompra.commit();
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"","Compra Registrada"));
+                    
+                    this.limpiarFacturaCompra();
+                    
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            if (this.transactionCompra!=null){
+                this.transactionCompra.rollback();
+            }
         } finally {
             if (this.sessionCompra!=null){
                 this.sessionCompra.close();

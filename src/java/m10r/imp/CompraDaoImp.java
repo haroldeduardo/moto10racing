@@ -25,5 +25,11 @@ public class CompraDaoImp implements CompraDao{
         Query q = sessionRegistrosCompra.createQuery(hql);
         return (Long) q.uniqueResult();
     }
+
+    @Override
+    public boolean ingresarCompra(Session sessionIngresarCompra, Compra compra) throws Exception {
+        sessionIngresarCompra.save(compra);
+        return true;
+    } 
     
 }
