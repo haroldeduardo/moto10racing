@@ -1,5 +1,5 @@
 package m10r.model;
-// Generated Jun 29, 2018 3:25:40 PM by Hibernate Tools 4.3.1
+// Generated Jul 1, 2018 11:19:14 PM by Hibernate Tools 4.3.1
 
 
 
@@ -18,13 +18,11 @@ public class Empleado  implements java.io.Serializable {
      private String direccionEmpleado;
      private String telefonoEmpleado;
      private String correoEmpleado;
-     private String userEmp;
-     private String passEmp;
 
     public Empleado() {
     }
 
-    public Empleado(int identificacionEmpleado, String nombresEmpleado, String apellidosEmpleado, int idDepartamento, int idCiudad, String direccionEmpleado, String telefonoEmpleado, String correoEmpleado, String userEmp, String passEmp) {
+    public Empleado(int identificacionEmpleado, String nombresEmpleado, String apellidosEmpleado, int idDepartamento, int idCiudad, String direccionEmpleado, String telefonoEmpleado, String correoEmpleado) {
        this.identificacionEmpleado = identificacionEmpleado;
        this.nombresEmpleado = nombresEmpleado;
        this.apellidosEmpleado = apellidosEmpleado;
@@ -33,8 +31,7 @@ public class Empleado  implements java.io.Serializable {
        this.direccionEmpleado = direccionEmpleado;
        this.telefonoEmpleado = telefonoEmpleado;
        this.correoEmpleado = correoEmpleado;
-       this.userEmp = userEmp;
-       this.passEmp = passEmp;
+     
     }
    
     public Integer getIdEmpleado() {
@@ -100,21 +97,6 @@ public class Empleado  implements java.io.Serializable {
     public void setCorreoEmpleado(String correoEmpleado) {
         this.correoEmpleado = correoEmpleado;
     }
-    public String getUserEmp() {
-        return this.userEmp;
-    }
-    
-    public void setUserEmp(String userEmp) {
-        this.userEmp = userEmp;
-    }
-    public String getPassEmp() {
-        return this.passEmp;
-    }
-    
-    public void setPassEmp(String passEmp) {
-        this.passEmp = passEmp;
-    }
-
 
 
 

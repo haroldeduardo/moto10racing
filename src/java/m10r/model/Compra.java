@@ -1,5 +1,5 @@
 package m10r.model;
-// Generated Jun 29, 2018 3:25:40 PM by Hibernate Tools 4.3.1
+// Generated Jul 1, 2018 11:19:14 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -21,14 +21,6 @@ public class Compra  implements java.io.Serializable {
     public Compra() {
     }
 
-	
-    public Compra(String numeroCompra, int idEmpleado, int idPersona, float totalCompra, int idTipoTransaccion) {
-        this.numeroCompra = numeroCompra;
-        this.idEmpleado = idEmpleado;
-        this.idPersona = idPersona;
-        this.totalCompra = totalCompra;
-        this.idTipoTransaccion = idTipoTransaccion;
-    }
     public Compra(String numeroCompra, int idEmpleado, int idPersona, float totalCompra, int idTipoTransaccion, Date fechaCompra) {
        this.numeroCompra = numeroCompra;
        this.idEmpleado = idEmpleado;

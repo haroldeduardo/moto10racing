@@ -31,6 +31,6 @@
         <param-value>redmond</param-value>
     </context-param>
     <welcome-file-list>
-        <welcome-file>faces/index.xhtml</welcome-file>
+        <welcome-file>faces/indexInterface.xhtml</welcome-file>
     </welcome-file-list>
 </web-app>

@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -44,6 +45,9 @@ public class CompraBean implements Serializable {
     Session sessionCompra=null;
     Transaction transactionCompra=null;
     
+    @ManagedProperty("#{UsuarioBean}")
+    private UsuarioBean uBean;
+    
     private Persona persona;
     private Integer identificacionPersona;
     
@@ -74,6 +78,14 @@ public class CompraBean implements Serializable {
         this.empleado = new Empleado();
         this.persona = new Persona();
         this.tipoTransaccion = new TipoTransaccion();
+    }
+
+    public UsuarioBean getuBean() {
+        return uBean;
+    }
+
+    public void setuBean(UsuarioBean uBean) {
+        this.uBean = uBean;
     }
 
     public Persona getPersona() {
@@ -419,12 +431,12 @@ public class CompraBean implements Serializable {
     }
     
     public void onRowEdit(RowEditEvent event) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"","Cantidad Modificada"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"","Modificación Realizada"));
         this.calcularValorTotalCompra();
     }
      
     public void onRowCancel(RowEditEvent event) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"","Sin Modificación"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"","Sin Modificacaciones"));
         
     }
     
@@ -473,8 +485,8 @@ public class CompraBean implements Serializable {
     public void ingresarCompraFULL(){
         this.sessionCompra = null;
         this.transactionCompra = null;
-        this.empleado.setIdEmpleado(1);
-        this.tipoTransaccion.setIdTipoTransaccion(1);
+        this.empleado.setIdEmpleado(1); /// definir Id Empleado...................
+        this.tipoTransaccion.setIdTipoTransaccion(1); /// definir Tipo de Transacción Contado v Credito...................
         
         try {
                 this.sessionCompra = HibernateUtil.getSessionFactory().openSession();

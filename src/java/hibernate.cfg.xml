@@ -61,6 +61,7 @@ Contributor(s):
     <mapping resource="m10r/model/DetalleCompra.hbm.xml"/>
     <mapping resource="m10r/model/Ciudad.hbm.xml"/>
     <mapping resource="m10r/model/Producto.hbm.xml"/>
+    <mapping resource="m10r/model/Usuario.hbm.xml"/>
     <mapping resource="m10r/model/Compra.hbm.xml"/>
     <mapping resource="m10r/model/EmpleadoUsuarios.hbm.xml"/>
     <mapping resource="m10r/model/UbicacionProducto.hbm.xml"/>

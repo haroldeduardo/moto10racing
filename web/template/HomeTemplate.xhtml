@@ -18,12 +18,21 @@
             <ui:insert name="top"></ui:insert>
             <h1>MOTO 10 RACING</h1>
             <h1></h1>
+            <div id="usuarioLoggeado">
+                <span>
+                    <h:form>
+                        <p:outputLabel value="Activo: "/>
+                        <p:outputLabel value="#{usuarioBean.usuario.userEmp} "/>
+                        <p:commandButton id="btnSalir" value="Salir" action="#{usuarioBean.finalizarSesion()}"/>
+                    </h:form>
+                </span>
+            </div>
             <h:form>
                 <p:menubar style="align-content:center; width:1118px; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:22px">
                     <p:submenu label="Inicio" icon="ui-icon-home">
                         <p:menuitem value="Inicio" url="#" icon="ui-icon-home" />
                         <p:separator />
-                        <p:menuitem value="Salir" url="#" icon="ui-icon-trash" />
+                        <p:menuitem value="Salir" action="#{usuarioBean.finalizarSesion()}" icon="ui-icon-trash" />
                     </p:submenu>
 
                     <p:submenu label="Empleados" icon="ui-icon-gear">

@@ -8,6 +8,13 @@
     text-align: center;
 }
 
+#usuarioLoggeado {
+    color: chocolate;
+    position: absolute;
+    right: 25px;
+    top: 25px;
+}
+
 #bottom {
     position: inherit;
     background-color: #ffffff;

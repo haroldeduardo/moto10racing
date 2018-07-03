@@ -104,8 +104,6 @@ CREATE TABLE IF NOT EXISTS `moto10racingHBT`.`Empleado` (
   `direccionEmpleado` VARCHAR(100) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL,
   `telefonoEmpleado` VARCHAR(100) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL,
   `correoEmpleado` VARCHAR(100) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL,
-  `userEmp` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL,
-  `passEmp` VARCHAR(50) CHARACTER SET 'latin1' COLLATE 'latin1_spanish_ci' NOT NULL,
   PRIMARY KEY (`idEmpleado`),
   UNIQUE INDEX `idEmpleado_UNIQUE` (`idEmpleado` ASC),
   UNIQUE INDEX `identificacionEmpleado_UNIQUE` (`identificacionEmpleado` ASC),
@@ -129,7 +127,7 @@ COLLATE = latin1_spanish_ci;
 
 LOCK TABLES `Empleado` WRITE;
 /*!40000 ALTER TABLE `Empleado` DISABLE KEYS */;
-INSERT INTO `Empleado` VALUES (1,'1','DEFAULT','DEFAULT',1,1,'DEFAULT','DEFAULT','DEFAULT@','DEFAULT$','DEFAULT$');
+INSERT INTO `Empleado` VALUES (1,'1','DEFAULT','DEFAULT',1,1,'DEFAULT','DEFAULT','DEFAULT@');
 /*!40000 ALTER TABLE `Empleado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -712,6 +710,75 @@ CREATE TABLE IF NOT EXISTS `moto10racingHBT`.`per_Modulos` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `moto10racingHBT`.`Usuario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `moto10racingHBT`.`Usuario` (
+  `idUsuario` INT(30) NOT NULL AUTO_INCREMENT,
+  `userEmp` VARCHAR(30) NOT NULL,
+  `passEmp` VARCHAR(333) NOT NULL,
+  `idEmpleado` INT(30) NOT NULL,
+  PRIMARY KEY (`idUsuario`),
+  INDEX `idEmpleadoUsuario_idx` (`idEmpleado` ASC),
+  CONSTRAINT `idEmpleadoUsuario`
+    FOREIGN KEY (`idEmpleado`)
+    REFERENCES `moto10racingHBT`.`Empleado` (`idEmpleado`)
+    ON DELETE RESTRICT
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+--
+-- Dumping data for table `Usuario`
+--
+
+LOCK TABLES `Usuario` WRITE;
+/*!40000 ALTER TABLE `Usuario` DISABLE KEYS */;
+INSERT INTO `Usuario` VALUES (1,'default','1625cdb75d25d9f699fd2779f44095b6e320767f606f095eb7edab5581e9e3441adbb0d628832f7dc4574a77a382973ce22911b7e4df2a9d2c693826bbd125bc',1);
+/*!40000 ALTER TABLE `Usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+USE `moto10racingHBT`;
+
+DELIMITER $$
+USE `moto10racingHBT`$$
+CREATE
+DEFINER=`root`@`localhost`
+TRIGGER `moto10racingHBT`.`actStockProductoFromDetalleCompra`
+BEFORE INSERT ON `moto10racingHBT`.`detalleCompra`
+FOR EACH ROW
+begin
+declare stockActual INT;
+set @stockActual = (select stockProducto from producto where idProducto = new.idProducto);
+update Producto
+set stockProducto = @stockActual+new.unidadesCompradas where idProducto = new.idProducto;
+end$$
+
+USE `moto10racingHBT`$$
+CREATE
+DEFINER=`root`@`localhost`
+TRIGGER `moto10racingHBT`.`actValorCpaProductoFromDetalleCompra`
+BEFORE INSERT ON `moto10racingHBT`.`detalleCompra`
+FOR EACH ROW
+begin
+update Producto
+set valorCompraProducto = new.valorCompraProducto where idProducto = new.idProducto;
+end$$
+
+USE `moto10racingHBT`$$
+CREATE
+DEFINER=`root`@`localhost`
+TRIGGER `moto10racingHBT`.`actValorVtaProductoFromDetalleCompra`
+BEFORE INSERT ON `moto10racingHBT`.`detalleCompra`
+FOR EACH ROW
+begin
+update Producto
+set valorVentaProducto = new.valorVentaProducto where idProducto = new.idProducto;
+end$$
+
+DELIMITER ;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
