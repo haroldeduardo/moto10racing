@@ -10,7 +10,7 @@ import org.hibernate.Session;
  *
  * @author CSR
  */
-public class CompraDaoImp implements CompraDao{
+public class CompraImp implements CompraDao{
 
     @Override
     public Compra obtenerUltimoRegistroCompra(Session sessionUltimoRegistroCompra) throws Exception {

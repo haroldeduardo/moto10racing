@@ -9,7 +9,7 @@ import org.hibernate.Session;
  *
  * @author CSR
  */
-public class DetalleCompraDaoImp implements DetalleCompraDao{
+public class DetalleCompraImp implements DetalleCompraDao{
 
     @Override
     public boolean ingresarDetalleCompra(Session sessionIngresarDetalleCompra, DetalleCompra detalleCompra) throws Exception {

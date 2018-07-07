@@ -17,10 +17,10 @@ import m10r.dao.CompraDao;
 import m10r.dao.PersonaDao;
 import m10r.dao.ProductoDao;
 import m10r.dao.DetalleCompraDao;
-import m10r.imp.CompraDaoImp;
-import m10r.imp.DetalleCompraDaoImp;
-import m10r.imp.PersonaDaoImp;
-import m10r.imp.ProductoDaoImp;
+import m10r.imp.CompraImp;
+import m10r.imp.DetalleCompraImp;
+import m10r.imp.PersonaImp;
+import m10r.imp.ProductoImp;
 import m10r.model.Compra;
 import m10r.model.DetalleCompra;
 import m10r.model.Empleado;
@@ -230,7 +230,7 @@ public class CompraBean implements Serializable {
         
         try {
             this.sessionCompra = HibernateUtil.getSessionFactory().openSession();
-            PersonaDao pDao = new PersonaDaoImp();
+            PersonaDao pDao = new PersonaImp();
             this.transactionCompra = this.sessionCompra.beginTransaction();
             this.persona = pDao.obtenerPersonaPorId(this.sessionCompra, idPersona);
             this.transactionCompra.commit();
@@ -258,7 +258,7 @@ public class CompraBean implements Serializable {
                 return;
             }
             this.sessionCompra = HibernateUtil.getSessionFactory().openSession();
-            PersonaDao pDao = new PersonaDaoImp();
+            PersonaDao pDao = new PersonaImp();
             this.transactionCompra = this.sessionCompra.beginTransaction();
             this.persona = pDao.obtenerPersonaPorIdentificacion(this.sessionCompra, this.identificacionPersona);
             if (this.persona!=null){
@@ -300,7 +300,7 @@ public class CompraBean implements Serializable {
             } else {
                 
             this.sessionCompra = HibernateUtil.getSessionFactory().openSession();
-            ProductoDao pDao = new ProductoDaoImp();
+            ProductoDao pDao = new ProductoImp();
             this.transactionCompra = this.sessionCompra.beginTransaction();
             this.producto = pDao.obtenerProductoPorCodigoProducto(this.sessionCompra, this.productoSeleccionado);
             
@@ -338,7 +338,7 @@ public class CompraBean implements Serializable {
                 return;
             }
             this.sessionCompra = HibernateUtil.getSessionFactory().openSession();
-            ProductoDao pDao = new ProductoDaoImp();
+            ProductoDao pDao = new ProductoImp();
             this.transactionCompra = this.sessionCompra.beginTransaction();
             this.producto = pDao.obtenerProductoPorCodigoProducto(this.sessionCompra, this.codigoProducto);
             if (this.producto!=null){
@@ -447,7 +447,7 @@ public class CompraBean implements Serializable {
         try {
             this.sessionCompra = HibernateUtil.getSessionFactory().openSession();
             this.transactionCompra = this.sessionCompra.beginTransaction();
-            CompraDao cDao = new CompraDaoImp();
+            CompraDao cDao = new CompraImp();
             this.numeroCompra = cDao.obtenerTotalRegistrosCompra(this.sessionCompra);
             
             if (this.numeroCompra <=0 || this.numeroCompra == null){
@@ -490,9 +490,9 @@ public class CompraBean implements Serializable {
         
         try {
                 this.sessionCompra = HibernateUtil.getSessionFactory().openSession();
-                ProductoDao pDao = new ProductoDaoImp();
-                CompraDao cDao = new CompraDaoImp();
-                DetalleCompraDao dcDao = new DetalleCompraDaoImp();
+                ProductoDao pDao = new ProductoImp();
+                CompraDao cDao = new CompraImp();
+                DetalleCompraDao dcDao = new DetalleCompraImp();
                 
                 this.transactionCompra = this.sessionCompra.beginTransaction();
                 

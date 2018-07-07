@@ -7,7 +7,7 @@ import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import m10r.dao.EmpleadoDao;
-import m10r.imp.EmpleadoDaoImp;
+import m10r.imp.EmpleadoImp;
 import m10r.model.Empleado;
 
 /**
@@ -39,7 +39,7 @@ public class EmpleadoBean implements Serializable {
     }
 
     public List<Empleado> getListaEmpleados() {
-        EmpleadoDao catDao = new EmpleadoDaoImp();
+        EmpleadoDao catDao = new EmpleadoImp();
         listaEmpleados = catDao.mostrarEmpleados();
         return listaEmpleados;
     }
@@ -49,18 +49,18 @@ public class EmpleadoBean implements Serializable {
     }
     
     public void ingresarEmpleado(){
-        EmpleadoDao catDao = new EmpleadoDaoImp();
+        EmpleadoDao catDao = new EmpleadoImp();
         catDao.ingresarEmpleado(empleado);
     }
     
     public void actualizarEmpleado(){
-        EmpleadoDao catDao = new EmpleadoDaoImp();
+        EmpleadoDao catDao = new EmpleadoImp();
         catDao.actualizarEmpleado(empleado);
         empleado = new Empleado();
     }
     
     public void eliminarEmpleado(){
-        EmpleadoDao catDao = new EmpleadoDaoImp();
+        EmpleadoDao catDao = new EmpleadoImp();
         catDao.eliminarEmpleado(empleado);
         empleado = new Empleado();
     }

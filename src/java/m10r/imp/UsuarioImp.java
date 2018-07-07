@@ -12,7 +12,7 @@ import org.hibernate.Session;
  *
  * @author CSR
  */
-public class UsuarioDaoImp implements UsuarioDao{
+public class UsuarioImp implements UsuarioDao{
 
     @Override
     public Usuario obtenerInformacionPorUsuario(Usuario usuario) {

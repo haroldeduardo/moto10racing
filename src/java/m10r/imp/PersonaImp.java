@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
  *
  * @author CSR
  */
-public class PersonaDaoImp implements PersonaDao{
+public class PersonaImp implements PersonaDao{
 
     @Override
     public List<Persona> mostrarPersonas(){

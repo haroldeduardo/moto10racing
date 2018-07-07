@@ -7,7 +7,7 @@ import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import m10r.dao.CategoriaDao;
-import m10r.imp.CategoriaDaoImp;
+import m10r.imp.CategoriaImp;
 import m10r.model.Categoria;
 
 /**
@@ -39,7 +39,7 @@ public class CategoriaBean implements Serializable {
     }
 
     public List<Categoria> getListaCategorias() {
-        CategoriaDao catDao = new CategoriaDaoImp();
+        CategoriaDao catDao = new CategoriaImp();
         listaCategorias = catDao.mostrarCategorias();
         return listaCategorias;
     }
@@ -49,20 +49,33 @@ public class CategoriaBean implements Serializable {
     }
     
     public void ingresarCategoria(){
-        CategoriaDao catDao = new CategoriaDaoImp();
+        CategoriaDao catDao = new CategoriaImp();
         catDao.ingresarCategoria(categoria);
     }
     
     public void actualizarCategoria(){
-        CategoriaDao catDao = new CategoriaDaoImp();
+        CategoriaDao catDao = new CategoriaImp();
         catDao.actualizarCategoria(categoria);
         categoria = new Categoria();
     }
     
     public void eliminarCategoria(){
-        CategoriaDao catDao = new CategoriaDaoImp();
+        CategoriaDao catDao = new CategoriaImp();
         catDao.eliminarCategoria(categoria);
         categoria = new Categoria();
+    }
+    
+    public void reporteCategorias() throws Exception {
+        
+        CategoriaImp Dao;
+        
+        try{
+            Dao = new CategoriaImp();
+            listaCategorias = Dao.mostrarCategorias();
+        }
+        catch(Exception e){
+        throw e;
+        }
     }
         
 }

@@ -12,7 +12,7 @@ import org.hibernate.Transaction;
  *
  * @author CSR
  */
-public class EmpleadoDaoImp implements EmpleadoDao{
+public class EmpleadoImp implements EmpleadoDao{
 
     @Override
     public List<Empleado> mostrarEmpleados(){

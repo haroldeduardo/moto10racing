@@ -12,7 +12,7 @@ import org.hibernate.Transaction;
  *
  * @author CSR
  */
-public class CategoriaDaoImp implements CategoriaDao{
+public class CategoriaImp implements CategoriaDao{
 
     @Override
     public List<Categoria> mostrarCategorias(){

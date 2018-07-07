@@ -7,7 +7,7 @@ import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import m10r.dao.PersonaDao;
-import m10r.imp.PersonaDaoImp;
+import m10r.imp.PersonaImp;
 import m10r.model.Persona;
 
 /**
@@ -39,7 +39,7 @@ public class PersonaBean implements Serializable {
     }
 
     public List<Persona> getListaPersonas() {
-        PersonaDao catDao = new PersonaDaoImp();
+        PersonaDao catDao = new PersonaImp();
         listaPersonas = catDao.mostrarPersonas();
         return listaPersonas;
     }
@@ -49,18 +49,18 @@ public class PersonaBean implements Serializable {
     }
     
     public void ingresarPersona(){
-        PersonaDao catDao = new PersonaDaoImp();
+        PersonaDao catDao = new PersonaImp();
         catDao.ingresarPersona(persona);
     }
     
     public void actualizarPersona(){
-        PersonaDao catDao = new PersonaDaoImp();
+        PersonaDao catDao = new PersonaImp();
         catDao.actualizarPersona(persona);
         persona = new Persona();
     }
     
     public void eliminarPersona(){
-        PersonaDao catDao = new PersonaDaoImp();
+        PersonaDao catDao = new PersonaImp();
         catDao.eliminarPersona(persona);
         persona = new Persona();
     }

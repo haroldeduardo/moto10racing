@@ -16,6 +16,12 @@
                     <p:commandButton value="Nuevo Producto" actionListener="#{productoBean.nuevoProducto()}" oncomplete="PF('dialogNuevoProducto').show();" update=":formNuevoProducto" style="text-align:center; font-size:15px"/>
                 </h:form>
                 <h1></h1>
+                
+                <f:event type="preRenderView" listener="#{categoriaBean.reporteCategorias()}"/>
+                <f:event type="preRenderView" listener="#{presentacionProductoBean.reportePresentacionesProducto()}"/>
+                <f:event type="preRenderView" listener="#{ubicacionProductoBean.reporteUbicacionesProducto()}"/>
+                
+                
                 <h:form id="formMostrarProductos">
                     <p:dataTable id="tableProductos" value="#{productoBean.listaProductos}" var="pro" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">
                         <p:column headerText="Código" style="text-align:center">
@@ -89,11 +95,20 @@
                                     <f:selectItem itemLabel="NO" itemValue="NO"/>
                                 </p:selectOneMenu>
                             <p:outputLabel value="Categoria"/>
-                                <p:inputText value="#{productoBean.producto.idCategoria}"/>
+                            <p:selectOneMenu value="#{productoBean.producto.idCategoria}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{categoriaBean.listaCategorias}" var="cat" itemLabel="#{cat.descripcionCategoria}" itemValue="#{cat.idCategoria}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Presentación"/>
-                                <p:inputText value="#{productoBean.producto.idPresentacionProducto}"/>
+                            <p:selectOneMenu value="#{productoBean.producto.idPresentacionProducto}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{presentacionProductoBean.listaPresentacionProductos}" var="pre" itemLabel="#{pre.descripcionPresentacionPro}" itemValue="#{pre.idPresentacionProducto}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Ubicación"/>
-                                <p:inputText value="#{productoBean.producto.idUbicacionProducto}"/>    
+                            <p:selectOneMenu value="#{productoBean.producto.idUbicacionProducto}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{ubicacionProductoBean.listaUbicacionProductos}" var="ubi" itemLabel="#{ubi.descripcionUbicacionPro}" itemValue="#{ubi.idUbicacionProducto}"/>
+                                </p:selectOneMenu>
                         </p:panelGrid>
                         <p:commandButton value="Guardar" actionListener="#{productoBean.ingresarProducto()}" oncomplete="PF('dialogNuevoProducto').hide();" update=":formMostrarProductos:tableProductos"/>
                         <p:commandButton value="Cancelar" onclick="PF('dialogNuevoProducto').hide();"/>
@@ -123,11 +138,20 @@
                                     <f:selectItem itemLabel="NO" itemValue="NO"/>
                                 </p:selectOneMenu>
                             <p:outputLabel value="Categoria"/>
-                                <p:inputText value="#{productoBean.producto.idCategoria}"/>
+                            <p:selectOneMenu value="#{productoBean.producto.idCategoria}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{categoriaBean.listaCategorias}" var="cat" itemLabel="#{cat.descripcionCategoria}" itemValue="#{cat.idCategoria}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Presentación"/>
-                                <p:inputText value="#{productoBean.producto.idPresentacionProducto}"/>
+                            <p:selectOneMenu value="#{productoBean.producto.idPresentacionProducto}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{presentacionProductoBean.listaPresentacionProductos}" var="pre" itemLabel="#{pre.descripcionPresentacionPro}" itemValue="#{pre.idPresentacionProducto}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Ubicación"/>
-                                <p:inputText value="#{productoBean.producto.idUbicacionProducto}"/>
+                            <p:selectOneMenu value="#{productoBean.producto.idUbicacionProducto}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{ubicacionProductoBean.listaUbicacionProductos}" var="ubi" itemLabel="#{ubi.descripcionUbicacionPro}" itemValue="#{ubi.idUbicacionProducto}"/>
+                                </p:selectOneMenu>
                         </p:panelGrid>
                         <p:commandButton value="Modificar" actionListener="#{productoBean.actualizarProducto()}" oncomplete="PF('dialogModificarProducto').hide();" update=":formMostrarProductos:tableProductos"/>
                         <p:commandButton value="Cancelar" onclick="PF('dialogModificarProducto').hide();"/>
@@ -135,7 +159,7 @@
                 </h:form>
                 <h:form id="formEliminarProducto">
                     <p:dialog id="dlgEliminarProducto" header="Información Producto" widgetVar="dialogEliminarProducto" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
-                        <h:outputText value="¿Desea Eliminar esta Producto? "/>
+                        <h:outputText value="¿Desea Eliminar este Producto? "/>
                         <p:commandButton value="Si" actionListener="#{productoBean.eliminarProducto()}" oncomplete="PF('dialogEliminarProducto').hide();" update=":formMostrarProductos:tableProductos"/>
                         <p:commandButton value="No" onclick="PF('dialogEliminarProducto').hide();"/>
                     </p:dialog>

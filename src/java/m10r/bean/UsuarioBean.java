@@ -9,7 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import m10r.dao.UsuarioDao;
-import m10r.imp.UsuarioDaoImp;
+import m10r.imp.UsuarioImp;
 import m10r.model.Persona;
 import m10r.model.Usuario;
 import org.primefaces.context.RequestContext;
@@ -62,7 +62,7 @@ public class UsuarioBean implements Serializable {
         boolean loggedIn = false;
         String Ruta = "";
         
-        UsuarioDao uDao = new UsuarioDaoImp();
+        UsuarioDao uDao = new UsuarioImp();
         this.usuario = uDao.ingresoSistema(this.usuario);
        
         if(this.usuario != null) {
@@ -72,6 +72,7 @@ public class UsuarioBean implements Serializable {
             loggedIn = true;
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.usuario.getUserEmp());
             Ruta = "/m10r/faces/views/Welcome.xhtml";
+            
         } else {
             loggedIn = false;
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Accesso Invalido", "Verifique Usuario & Password");

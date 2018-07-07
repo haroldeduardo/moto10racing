@@ -13,7 +13,7 @@ import org.hibernate.Transaction;
  *
  * @author CSR
  */
-public class ProductoDaoImp implements ProductoDao{
+public class ProductoImp implements ProductoDao{
 
     @Override
     public List<Producto> mostrarProductos(){

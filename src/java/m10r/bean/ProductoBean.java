@@ -7,8 +7,9 @@ import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 import m10r.dao.ProductoDao;
-import m10r.imp.ProductoDaoImp;
+import m10r.imp.ProductoImp;
 import m10r.model.Producto;
+import m10r.model.UbicacionProducto;
 
 /**
  *
@@ -21,9 +22,14 @@ import m10r.model.Producto;
 public class ProductoBean implements Serializable {
 
     private List<Producto> listaProductos;
-    private Producto producto;
+    private Producto producto = new Producto();
+    
+    private UbicacionProducto ubicacionProducto = new UbicacionProducto(); 
     
     public ProductoBean() {
+        
+        this.ubicacionProducto = new UbicacionProducto();
+        
     }
 
     public void setListaProductos(List<Producto> listaProductos) {
@@ -39,7 +45,7 @@ public class ProductoBean implements Serializable {
     }
 
     public List<Producto> getListaProductos() {
-        ProductoDao catDao = new ProductoDaoImp();
+        ProductoDao catDao = new ProductoImp();
         listaProductos = catDao.mostrarProductos();
         return listaProductos;
     }
@@ -49,20 +55,28 @@ public class ProductoBean implements Serializable {
     }
     
     public void ingresarProducto(){
-        ProductoDao catDao = new ProductoDaoImp();
+        ProductoDao catDao = new ProductoImp();
         catDao.ingresarProducto(producto);
     }
     
     public void actualizarProducto(){
-        ProductoDao catDao = new ProductoDaoImp();
+        ProductoDao catDao = new ProductoImp();
         catDao.actualizarProducto(producto);
         producto = new Producto();
     }
     
     public void eliminarProducto(){
-        ProductoDao catDao = new ProductoDaoImp();
+        ProductoDao catDao = new ProductoImp();
         catDao.eliminarProducto(producto);
         producto = new Producto();
+    }
+
+    public UbicacionProducto getUbicacionProducto() {
+        return ubicacionProducto;
+    }
+
+    public void setUbicacionProducto(UbicacionProducto ubicacionProducto) {
+        this.ubicacionProducto = ubicacionProducto;
     }
     
 }
