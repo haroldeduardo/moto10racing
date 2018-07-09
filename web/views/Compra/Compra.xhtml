@@ -30,9 +30,9 @@
                                             <p:ajax event="keyup" delay="1000" listener="#{compraBean.agregarDatosPersonaPorIdentificacion()}" update=":formFacturaCompra:gridDatosProveedor :formFacturaCompra:inpTexProveedor"/>
                                         </p:inputText> 
                                             <p:commandButton value="+" oncomplete="PF('dialogDatosProveedores').show();" update=":formFacturaCompra:dialogProveedores" disabled="#{!compraBean.enabled}"/>
-                                    <p:outputLabel value="Empleado: " style="font-size: 16px; font-weight: bold"/>
-                                        <p:inputText id="inpTexEmpleado" value="#{compraBean.identificacionPersona}" size="24" placeholder="----- Ingrese Empleado -----"  converter="#{Integer}" converterMessage="Valor Erroneo" disabled="#{!compraBean.enabled}">
-                                            <p:ajax event="keyup" delay="1000" listener="#{compraBean.agregarDatosPersonaPorIdentificacion()}" update=":formFacturaCompra:gridDatosProveedor :formFacturaCompra:inpTexEmpleado"/>
+                                    <p:outputLabel value="Forma de Pago: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:inputText id="inpTexFormaPago" size="20" placeholder="--- Credito/Contado ---"  converter="#{Integer}" converterMessage="Valor Erroneo" disabled="#{!compraBean.enabled}">
+                                            <p:ajax event="keyup" delay="1000" update=":formFacturaCompra:gridDatosProveedor :formFacturaCompra:inpTexFormaPago"/>
                                         </p:inputText> 
                                             <p:commandButton value="+" oncomplete="PF('dialogDatosProveedores').show();" update=":formFacturaCompra:dialogProveedores" disabled="#{!compraBean.enabled}"/>
                                     <p:outputLabel value="Fecha: " style="font-size: 16px; font-weight: bold"/>
