@@ -13,9 +13,15 @@
             <ui:define name="content">
                 <h1></h1>
                 <h:form>
-                    <p:commandButton value="Nuevo Persona" actionListener="#{personaBean.nuevaPersona()}" oncomplete="PF('dialogNuevoPersona').show();" update=":formNuevoPersona" style="text-align:center; font-size:15px"/>
+                    <p:commandButton value="Nueva Persona" actionListener="#{personaBean.nuevaPersona()}" oncomplete="PF('dialogNuevoPersona').show();" update=":formNuevoPersona" style="text-align:center; font-size:15px"/>
                 </h:form>
                 <h1></h1>
+                
+                <f:event type="preRenderView" listener="#{tipoPersonaBean.reportePersonas()}"/>
+                <f:event type="preRenderView" listener="#{tipoDocumentoBean.reporteTipoDocumentos()}"/>
+                <f:event type="preRenderView" listener="#{departamentoBean.reporteDepartamentos()}"/>
+                <f:event type="preRenderView" listener="#{ciudadBean.reporteCiudades()}"/>
+                
                 <h:form id="formMostrarPersonas">
                     <p:dataTable id="tablePersonas" value="#{personaBean.listaPersonas}" var="per" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">
                         <p:column headerText="Clase" style="text-align:center">
@@ -64,9 +70,15 @@
                     <p:dialog id="dlgNuevoPersona" header="Información Persona" widgetVar="dialogNuevoPersona" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
                         <p:panelGrid columns="2" style="margin: 0 auto;">
                             <p:outputLabel value="Clase"/>
-                                <p:inputText value="#{personaBean.persona.idTipoPersona}"/>
+                            <p:selectOneMenu value="#{personaBean.persona.idTipoPersona}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{tipoPersonaBean.listaTipoPersonas}" var="tipPer" itemLabel="#{tipPer.descripcionPersona}" itemValue="#{tipPer.idTipoPersona}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Documento"/>
-                                <p:inputText value="#{personaBean.persona.idTipoDocumento}"/>
+                            <p:selectOneMenu value="#{personaBean.persona.idTipoDocumento}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{tipoDocumentoBean.listaTipoDocumentos}" var="tipDoc" itemLabel="#{tipDoc.descripcionDocumento}" itemValue="#{tipDoc.idTipoDocumento}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Identificación"/>
                                 <p:inputText value="#{personaBean.persona.identificacionPersona}"/>
                             <p:outputLabel value="Nombres"/>
@@ -74,9 +86,15 @@
                             <p:outputLabel value="Apellidos"/>
                                 <p:inputText value="#{personaBean.persona.apellidosPersona}"/>
                             <p:outputLabel value="Departamento"/>
-                                <p:inputText value="#{personaBean.persona.idDepartamento}"/>
+                            <p:selectOneMenu value="#{personaBean.persona.idDepartamento}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{departamentoBean.listaDepartamentos}" var="dep" itemLabel="#{dep.nombreDepartamento}" itemValue="#{dep.idDepartamento}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Ciudad"/>
-                                <p:inputText value="#{personaBean.persona.idCiudad}"/>
+                            <p:selectOneMenu value="#{personaBean.persona.idCiudad}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{ciudadBean.listaCiudades}" var="ciu" itemLabel="#{ciu.nombreCiudad}" itemValue="#{ciu.idCiudad}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Dirección"/>
                                 <p:inputText value="#{personaBean.persona.direccionPersona}"/>
                             <p:outputLabel value="Teléfono"/>
@@ -92,9 +110,15 @@
                     <p:dialog id="dlgNuevoPersona" header="Información Persona" widgetVar="dialogModificarPersona" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
                         <p:panelGrid columns="2" style="margin: 0 auto;">
                             <p:outputLabel value="Clase"/>
-                                <p:inputText value="#{personaBean.persona.idTipoPersona}"/>
+                            <p:selectOneMenu value="#{personaBean.persona.idTipoPersona}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{tipoPersonaBean.listaTipoPersonas}" var="tipPer" itemLabel="#{tipPer.descripcionPersona}" itemValue="#{tipPer.idTipoPersona}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Documento"/>
-                                <p:inputText value="#{personaBean.persona.idTipoDocumento}"/>
+                            <p:selectOneMenu value="#{personaBean.persona.idTipoDocumento}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{tipoDocumentoBean.listaTipoDocumentos}" var="tipDoc" itemLabel="#{tipDoc.descripcionDocumento}" itemValue="#{tipDoc.idTipoDocumento}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Identificación"/>
                                 <p:inputText value="#{personaBean.persona.identificacionPersona}"/>
                             <p:outputLabel value="Nombres"/>
@@ -102,9 +126,15 @@
                             <p:outputLabel value="Apellidos"/>
                                 <p:inputText value="#{personaBean.persona.apellidosPersona}"/>
                             <p:outputLabel value="Departamento"/>
-                                <p:inputText value="#{personaBean.persona.idDepartamento}"/>
+                            <p:selectOneMenu value="#{personaBean.persona.idDepartamento}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{departamentoBean.listaDepartamentos}" var="dep" itemLabel="#{dep.nombreDepartamento}" itemValue="#{dep.idDepartamento}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Ciudad"/>
-                                <p:inputText value="#{personaBean.persona.idCiudad}"/>
+                            <p:selectOneMenu value="#{personaBean.persona.idCiudad}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{ciudadBean.listaCiudades}" var="ciu" itemLabel="#{ciu.nombreCiudad}" itemValue="#{ciu.idCiudad}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Dirección"/>
                                 <p:inputText value="#{personaBean.persona.direccionPersona}"/>
                             <p:outputLabel value="Teléfono"/>

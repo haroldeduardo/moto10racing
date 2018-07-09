@@ -14,6 +14,7 @@ import m10r.model.Empleado;
  *
  * @author CSR
  */
+
 @Named(value = "empleadoBean")
 @ManagedBean
 @ViewScoped
@@ -21,7 +22,7 @@ import m10r.model.Empleado;
 public class EmpleadoBean implements Serializable {
 
     private List<Empleado> listaEmpleados;
-    private Empleado empleado;
+    private Empleado empleado = new Empleado();
     
     public EmpleadoBean() {
     }

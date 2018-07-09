@@ -14,6 +14,7 @@ import m10r.model.Categoria;
  *
  * @author CSR
  */
+
 @Named(value = "categoriaBean")
 @ManagedBean
 @ViewScoped

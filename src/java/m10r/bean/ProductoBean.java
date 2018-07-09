@@ -9,12 +9,12 @@ import javax.faces.view.ViewScoped;
 import m10r.dao.ProductoDao;
 import m10r.imp.ProductoImp;
 import m10r.model.Producto;
-import m10r.model.UbicacionProducto;
 
 /**
  *
  * @author CSR
  */
+
 @Named(value = "productoBean")
 @ManagedBean
 @ViewScoped
@@ -24,12 +24,7 @@ public class ProductoBean implements Serializable {
     private List<Producto> listaProductos;
     private Producto producto = new Producto();
     
-    private UbicacionProducto ubicacionProducto = new UbicacionProducto(); 
-    
-    public ProductoBean() {
-        
-        this.ubicacionProducto = new UbicacionProducto();
-        
+    public ProductoBean() {       
     }
 
     public void setListaProductos(List<Producto> listaProductos) {
@@ -69,14 +64,6 @@ public class ProductoBean implements Serializable {
         ProductoDao catDao = new ProductoImp();
         catDao.eliminarProducto(producto);
         producto = new Producto();
-    }
-
-    public UbicacionProducto getUbicacionProducto() {
-        return ubicacionProducto;
-    }
-
-    public void setUbicacionProducto(UbicacionProducto ubicacionProducto) {
-        this.ubicacionProducto = ubicacionProducto;
     }
     
 }

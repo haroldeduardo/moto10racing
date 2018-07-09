@@ -21,7 +21,6 @@
                 <f:event type="preRenderView" listener="#{presentacionProductoBean.reportePresentacionesProducto()}"/>
                 <f:event type="preRenderView" listener="#{ubicacionProductoBean.reporteUbicacionesProducto()}"/>
                 
-                
                 <h:form id="formMostrarProductos">
                     <p:dataTable id="tableProductos" value="#{productoBean.listaProductos}" var="pro" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">
                         <p:column headerText="Código" style="text-align:center">

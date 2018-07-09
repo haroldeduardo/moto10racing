@@ -14,6 +14,7 @@ import m10r.model.UbicacionProducto;
  *
  * @author CSR
  */
+
 @Named(value = "ubicacionProductoBean")
 @ManagedBean
 @ViewScoped

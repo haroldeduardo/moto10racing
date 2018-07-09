@@ -10,7 +10,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import m10r.dao.UsuarioDao;
 import m10r.imp.UsuarioImp;
-import m10r.model.Persona;
 import m10r.model.Usuario;
 import org.primefaces.context.RequestContext;
 
@@ -18,8 +17,10 @@ import org.primefaces.context.RequestContext;
  *
  * @author CSR
  */
+
 @Named(value = "usuarioBean")
 @SessionScoped
+
 public class UsuarioBean implements Serializable {
 
     private Usuario usuario;
@@ -90,7 +91,7 @@ public class UsuarioBean implements Serializable {
         
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         httpSession.invalidate();
-        return "/indexInterface";
+        return "/indexInterface";  
     }
     
 }

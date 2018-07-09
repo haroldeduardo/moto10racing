@@ -14,6 +14,7 @@ import m10r.model.Persona;
  *
  * @author CSR
  */
+
 @Named(value = "personaBean")
 @ManagedBean
 @ViewScoped
@@ -21,7 +22,7 @@ import m10r.model.Persona;
 public class PersonaBean implements Serializable {
 
     private List<Persona> listaPersonas;
-    private Persona persona;
+    private Persona persona = new Persona();
     
     public PersonaBean() {
     }

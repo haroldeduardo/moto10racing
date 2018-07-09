@@ -16,6 +16,10 @@
                     <p:commandButton value="Nuevo Empleado" actionListener="#{empleadoBean.nuevoEmpleado()}" oncomplete="PF('dialogNuevoEmpleado').show();" update=":formNuevoEmpleado" style="text-align:center; font-size:15px"/>
                 </h:form>
                 <h1></h1>
+                
+                <f:event type="preRenderView" listener="#{departamentoBean.reporteDepartamentos()}"/>
+                <f:event type="preRenderView" listener="#{ciudadBean.reporteCiudades()}"/>
+                
                 <h:form id="formMostrarEmpleados">
                     <p:dataTable id="tableEmpleados" value="#{empleadoBean.listaEmpleados}" var="emp" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">
                         <p:column headerText="Identificación" style="text-align:center">
@@ -64,9 +68,15 @@
                             <p:outputLabel value="Apellidos"/>
                                 <p:inputText value="#{empleadoBean.empleado.apellidosEmpleado}"/>
                             <p:outputLabel value="Departamento"/>
-                                <p:inputText value="#{empleadoBean.empleado.idDepartamento}"/>
+                            <p:selectOneMenu value="#{empleadoBean.empleado.idDepartamento}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{departamentoBean.listaDepartamentos}" var="dep" itemLabel="#{dep.nombreDepartamento}" itemValue="#{dep.idDepartamento}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Ciudad"/>
-                                <p:inputText value="#{empleadoBean.empleado.idCiudad}"/>
+                            <p:selectOneMenu value="#{empleadoBean.empleado.idCiudad}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{ciudadBean.listaCiudades}" var="ciu" itemLabel="#{ciu.nombreCiudad}" itemValue="#{ciu.idCiudad}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Dirección"/>
                                 <p:inputText value="#{empleadoBean.empleado.direccionEmpleado}"/>
                             <p:outputLabel value="Teléfono"/>
@@ -88,9 +98,15 @@
                             <p:outputLabel value="Apellidos"/>
                                 <p:inputText value="#{empleadoBean.empleado.apellidosEmpleado}"/>
                             <p:outputLabel value="Departamento"/>
-                                <p:inputText value="#{empleadoBean.empleado.idDepartamento}"/>
+                            <p:selectOneMenu value="#{empleadoBean.empleado.idDepartamento}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{departamentoBean.listaDepartamentos}" var="dep" itemLabel="#{dep.nombreDepartamento}" itemValue="#{dep.idDepartamento}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Ciudad"/>
-                                <p:inputText value="#{empleadoBean.empleado.idCiudad}"/>
+                            <p:selectOneMenu value="#{empleadoBean.empleado.idCiudad}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{ciudadBean.listaCiudades}" var="ciu" itemLabel="#{ciu.nombreCiudad}" itemValue="#{ciu.idCiudad}"/>
+                                </p:selectOneMenu>
                             <p:outputLabel value="Dirección"/>
                                 <p:inputText value="#{empleadoBean.empleado.direccionEmpleado}"/>
                             <p:outputLabel value="Teléfono"/>

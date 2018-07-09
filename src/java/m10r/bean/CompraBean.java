@@ -37,9 +37,11 @@ import org.primefaces.event.RowEditEvent;
  *
  * @author CSR
  */
+
 @Named(value = "compraBean")
 @ViewScoped
 @ManagedBean
+
 public class CompraBean implements Serializable {
     
     Session sessionCompra=null;
