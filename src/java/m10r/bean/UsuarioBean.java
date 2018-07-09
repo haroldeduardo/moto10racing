@@ -72,7 +72,7 @@ public class UsuarioBean implements Serializable {
             
             loggedIn = true;
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.usuario.getUserEmp());
-            Ruta = "/m10r/faces/views/Welcome.xhtml";
+            Ruta = "/m10r/faces/views/HomePage.xhtml";
             
         } else {
             loggedIn = false;
