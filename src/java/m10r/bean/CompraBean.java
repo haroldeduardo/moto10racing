@@ -47,8 +47,8 @@ public class CompraBean implements Serializable {
     Session sessionCompra=null;
     Transaction transactionCompra=null;
     
-    @ManagedProperty("#{UsuarioBean}")
-    private UsuarioBean uBean;
+    @ManagedProperty("#{InterfaceUsuarioBean}")
+    private InterfaceUsuarioBean uBean;
     
     private Persona persona;
     private Integer identificacionPersona;
@@ -82,11 +82,11 @@ public class CompraBean implements Serializable {
         this.tipoTransaccion = new TipoTransaccion();
     }
 
-    public UsuarioBean getuBean() {
+    public InterfaceUsuarioBean getuBean() {
         return uBean;
     }
 
-    public void setuBean(UsuarioBean uBean) {
+    public void setuBean(InterfaceUsuarioBean uBean) {
         this.uBean = uBean;
     }
 

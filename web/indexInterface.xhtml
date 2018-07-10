@@ -25,13 +25,13 @@
             <p:panel header="M10R" widgetVar="pnl" style="font-family: sans-serif; text-align: center; font-size: 15px">
                 <h:panelGrid columns="2" cellpadding="5">
                     <h:outputLabel for="username" value="Username:" style="font-family: sans-serif"/>
-                    <p:inputText id="username" value="#{usuarioBean.usuario.userEmp}" required="true" label="username" placeholder="---Ingresa Tu Usuario---" requiredMessage="Ingrese Su Usuario"/>
+                    <p:inputText id="username" value="#{interfaceUsuarioBean.usuario.userEmp}" required="true" label="username" placeholder="---Ingresa Tu Usuario---" requiredMessage="Ingrese Su Usuario"/>
 
                     <h:outputLabel for="password" value="Password:" style="font-family: sans-serif"/>
-                    <p:password id="password" value="#{usuarioBean.usuario.passEmp}" required="true" label="password" placeholder=" -Ingresa Tu Contraseña-" requiredMessage="Ingrese Su Contraseña"/>
+                    <p:password id="password" value="#{interfaceUsuarioBean.usuario.passEmp}" required="true" label="password" placeholder=" -Ingresa Tu Contraseña-" requiredMessage="Ingrese Su Contraseña"/>
 
                     <f:facet name="footer">
-                        <p:commandButton value="Aceptar" update="formUsuario" actionListener="#{usuarioBean.loginUsuario(event)}" oncomplete="handleLoginRequest(xhr, status, args)" />
+                        <p:commandButton value="Aceptar" update="formUsuario" actionListener="#{interfaceUsuarioBean.loginUsuario(event)}" oncomplete="handleLoginRequest(xhr, status, args)" />
                     </f:facet>  
                 </h:panelGrid>
             </p:panel>

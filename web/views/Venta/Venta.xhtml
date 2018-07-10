@@ -3,82 +3,222 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./../../template/HomeTemplate.xhtml">
 
-                        <ui:define name="content">
+            <ui:define name="content">
                 <h3>FACTURA DE VENTA</h3>
+                <h3></h3>
+                <h:form>
+                    <h:panelGrid width="1010px" style="margin: 0 auto;">
+                        <p:commandButton value="Nueva Venta" style="font-family: sans-serif; font-size: 22px; width: 198px; height: 55px; color: coral" actionListener="#{ventaBean.numeracionVenta()}" update=":formFacturaVenta" action="#{ventaBean.enableBoton()}"/>
+                    </h:panelGrid>
+                </h:form>
+                <h3></h3>
                 <h:form id="formFacturaVenta">
+                  <p:growl id="mensajesVenta" autoUpdate="true" showDetail="true" life="1500"/>
                     <p:panel style="width: 1111px; margin: 0 auto; text-align: center">
                         <p:layout id="layoutFacturaVenta" style="width: 100%; height: 85px">
                             <p:layoutUnit id="layoutVenta" position="center" style="padding: 5px; text-align: justify; font-size: 15px; size: 300px">
-                                <h:panelGrid id="gridVenta" columns="5">
-                                    <p:outputLabel value="Cliente: " style="font-size: 16px"/>
-                                        <p:inputText size="27" placeholder="Digite C.C o Nit"/>
-                                            <p:commandButton value="+"/>
-                                    <p:outputLabel value="Fecha: " style="font-size: 16px"/>
-                                        <p:inputText size="16"/>
+                                <h:panelGrid id="gridBuscarEmpPro" columns="8">
+                                    <p:outputLabel value="Cliente: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:inputText id="inpTexCliente" value="#{ventaBean.identificacionPersona}" size="23" placeholder="----- Ingrese C.C o Nit -----"  converter="#{Integer}" converterMessage="Valor Erroneo" disabled="#{!ventaBean.enabled}">
+                                            <p:ajax event="keyup" delay="1000" listener="#{ventaBean.agregarDatosPersonaPorIdentificacion()}" update=":formFacturaVenta:gridDatosCliente :formFacturaVenta:inpTexCliente"/>
+                                        </p:inputText> 
+                                            <p:commandButton value="+" oncomplete="PF('dialogDatosClientes').show();" update=":formFacturaVenta:dialogClientes" disabled="#{!ventaBean.enabled}"/>
+                                    <p:outputLabel value="Forma de Pago: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:inputText id="inpTexFormaPago" size="20" placeholder="--- Credito/Contado ---"  converter="#{Integer}" converterMessage="Valor Erroneo" disabled="#{!ventaBean.enabled}">
+                                            <p:ajax event="keyup" delay="1000" update=":formFacturaVenta:gridDatosCliente :formFacturaVenta:inpTexFormaPago"/>
+                                        </p:inputText> 
+                                            <p:commandButton value="+" oncomplete="PF('dialogDatosClientes').show();" update=":formFacturaVenta:dialogClientes" disabled="#{!ventaBean.enabled}"/>
+                                    <p:outputLabel value="Fecha: " style="font-size: 16px; font-weight: bold"/>
+                                    <p:outputLabel value="#{ventaBean.fechaSistema}"/>        
                                 </h:panelGrid>
-                                <h:panelGrid id="gridDatosCliente" columns="8">
-                                    <p:outputLabel value="Nombres: " style="font-size: 16px"/>
-                                        <p:outputLabel id="nombresCliente" value=" "/>
-                                    <p:outputLabel value="Apellidos: " style="font-size: 16px"/>
-                                        <p:outputLabel id="apellidosCliente" value=" "/>
-                                    <p:outputLabel value="Dirección: " style="font-size: 16px"/>
-                                        <p:outputLabel id="direccionCliente" value=" "/>
-                                    <p:outputLabel value="Teléfono: " style="font-size: 16px"/>
-                                        <p:outputLabel id="telefonoCliente" value=" "/>
+                                <h:panelGrid id="gridDatosCliente" columns="10">
+                                    <p:outputLabel value="Nombres: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:outputLabel id="nombresCliente" value="#{ventaBean.persona.nombresPersona}"/>
+                                    <p:outputLabel value="Apellidos: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:outputLabel id="apellidosCliente" value="#{ventaBean.persona.apellidosPersona}"/>
+                                    <p:outputLabel value="Dirección: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:outputLabel id="direccionCliente" value="#{ventaBean.persona.direccionPersona}"/>
+                                    <p:outputLabel value="Teléfono: " style="font-size: 16px; font-weight: bold"/>
+                                        <p:outputLabel id="telefonoCliente" value="#{ventaBean.persona.telefonoPersona}"/>
                                 </h:panelGrid>
                             </p:layoutUnit>
                             <p:layoutUnit id="layoutNumeroFactura" position="east" style=" padding: 5px; text-align: center; font-size: 15px" size="150">
                                 <h:panelGrid columns="1" style="font-size: 22px; font-weight: normal; margin-top: 30px; margin: 0 auto">
                                     <h6>NUMERO</h6>
-                                    <p:outputLabel value="007"/>
+                                    <p:outputLabel value="#{ventaBean.numeroVenta}"/>
                                 </h:panelGrid>
                             </p:layoutUnit>
                         </p:layout>
-                        <h:panelGrid columns="3">
-                            <p:outputLabel value="Código de Producto: "/>
-                            <p:inputText value=" " size="15"/>
-                            <p:commandButton value="+"/>
+                        <h:panelGrid id="gridBuscarProducto" columns="3">
+                            <p:outputLabel value="Código de Producto: " style="font-size: 16px; font-weight: bold"/>
+                                <p:inputText id="inpTexProducto" value="#{ventaBean.codigoProducto}" size="27" placeholder="---- Digite Código Producto ----" disabled="#{!ventaBean.enabled}">
+                                    <p:ajax event="keyup" delay="1000" listener="#{ventaBean.mostrarDatosCantidadProductoPorCodigo()}" update=":formFacturaVenta:gridBuscarProducto"/>
+                                </p:inputText>
+                            <p:commandButton value="+" oncomplete="PF('dialogDatosProductos').show();" update=":formFacturaVenta:dialogProductos" disabled="#{!ventaBean.enabled}"/>
                         </h:panelGrid>
-                        <p:dataTable id="tableProductosFactura">
+                        <p:dataTable id="tableProductoFactura" editable="true" value="#{ventaBean.listaDetalleVenta}" var="pro" rowIndexVar="rowIndex">
+                                <p:ajax event="rowEdit" listener="#{ventaBean.onRowEdit}" update=":formFacturaVenta:tableProductoFactura :formFacturaVenta:gridTotalFactura"/>
+                                <p:ajax event="rowEditCancel" listener="#{ventaBean.onRowCancel}" update=":formFacturaVenta:tableProductoFactura :formFacturaVenta:gridTotalFactura"/>
                             <p:column headerText="Código">
-                                
+                                <h:outputText value="#{pro.codigoProducto}"/>
                             </p:column>
                             <p:column headerText="Producto">
-                                
+                                <h:outputText value="#{pro.nombreProducto}"/>
                             </p:column>
-                            <p:column headerText="IVA">
-                                
+                            <p:column headerText="Valor Venta">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{pro.valorVentaProducto}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <h:inputText value="#{pro.valorVentaProducto}" required="true" requiredMessage="Digite un Valor Numérico" converter="#{Integer}" converterMessage="Valor Erroneo" validatorMessage="Valor Erroneo">
+                                            <f:validateLongRange minimum="1"/>
+                                        </h:inputText>
+                                    </f:facet>    
+                                </p:cellEditor>
                             </p:column>
-                            <p:column headerText="Cantidad">
-                                
+                            <p:column headerText="Valor Venta">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{pro.valorVentaProducto}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <h:inputText value="#{pro.valorVentaProducto}" required="true" requiredMessage="Digite un Valor Numérico" converter="#{Integer}" converterMessage="Valor Erroneo" validatorMessage="Valor Erroneo">
+                                            <f:validateLongRange minimum="1"/>
+                                        </h:inputText>
+                                    </f:facet>    
+                                    </p:cellEditor>
                             </p:column>
-                            <p:column headerText="Valor">
-                                
-                            </p:column>
-                            <p:column headerText="Descuento">
-                                
+                            <p:column headerText="Unidades Vendidas">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{pro.unidadesVendidas}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <h:inputText value="#{pro.unidadesVendidas}" required="true" requiredMessage="Digite un Valor Numérico" converter="#{Integer}" converterMessage="Valor Erroneo" validatorMessage="Valor Erroneo">
+                                            <f:validateLongRange minimum="1"/>
+                                        </h:inputText>
+                                    </f:facet>    
+                                </p:cellEditor>
                             </p:column>
                             <p:column headerText="Total">
-                                
+                                <p:outputLabel value="#{pro.totalDetalleVenta}">
+                                    <f:convertNumber type="currency" currencySymbol="$ " minFractionDigits="0"/>
+                                </p:outputLabel>
+                            </p:column>
+                            <p:column headerText="Eliminar" style="width:88px">
+                                <p:commandLink value=" X" style="font-size: 22px ; text-decoration: none ; color: red" actionListener="#{ventaBean.eliminarProducto(pro.codigoProducto, rowIndex)}" update=":formFacturaVenta:tableProductoFactura :formFacturaVenta:gridTotalFactura"/>
+                            <p:rowEditor/>
                             </p:column>
                         </p:dataTable>
-                            <h6>Total Venta</h6> 
-                            $<p:outputLabel value="Total a Vender"/>
+                        <h:panelGrid id="gridTotalFactura" columns="2" style="font-size: 15px; margin: 0 auto">
+                            <h3>Total Venta</h3> 
+                            <p:outputLabel value="#{ventaBean.totalVentaFacturaVenta}" style="font-size: 27px; margin: 0 auto">
+                                    <f:convertNumber type="currency" currencySymbol="$ " minFractionDigits="0"/>
+                                </p:outputLabel>
+                        </h:panelGrid>
                             <h6></h6>
-                            <p:commandButton value="Aceptar" style="width: 100px; height: 38px"/>
-                            <p:commandButton value="Imprimir" style="width: 100px; height: 38px"/>
-                            <p:commandButton value="Cancelar" style="width: 100px; height: 38px"/>
+                            <p:commandButton value="Aceptar" style="width: 100px; height: 38px" actionListener="#{ventaBean.ingresarVentaFULL()}" update=":formFacturaVenta" disabled="#{!ventaBean.enabled}" action="#{ventaBean.disableBoton()}"/>
+                            <p:commandButton value="Imprimir" style="width: 100px; height: 38px" disabled="#{!ventaBean.enabled}"/>
+                            <p:commandButton value="Cancelar" style="width: 100px; height: 38px" action="#{ventaBean.limpiarFacturaVenta()}" update=":formFacturaVenta" disabled="#{!ventaBean.enabled}"/>
                     </p:panel>
+                    <p:dialog id="dialogClientes" widgetVar="dialogDatosClientes" modal="true" resizable="true" showEffect="explode" hideEffect="explode" style="text-align:center">
+                            <p:dataTable id="tablePersonas" value="#{personaBean.listaPersonas}" var="per" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">
+                        <p:column headerText="Documento" style="text-align:center">
+                            <h:outputText value="#{per.idTipoDocumento}"/>
+                        </p:column>
+                        <p:column headerText="Identificación" style="text-align:center">
+                            <h:outputText value="#{per.identificacionPersona}"/>
+                        </p:column>
+                        <p:column headerText="Nombres" style="text-align:center">
+                            <h:outputText value="#{per.nombresPersona}"/>
+                        </p:column>
+                        <p:column headerText="Apellidos" style="text-align:center">
+                            <h:outputText value="#{per.apellidosPersona}"/>
+                        </p:column>
+                        <p:column headerText="Departamento" style="text-align:center">
+                            <h:outputText value="#{per.idDepartamento}"/>
+                        </p:column>
+                        <p:column headerText="Ciudad" style="text-align:center">
+                            <h:outputText value="#{per.idCiudad}"/>
+                        </p:column>
+                        <p:column headerText="Dirección" style="text-align:center">
+                            <h:outputText value="#{per.direccionPersona}"/>
+                        </p:column>
+                        <p:column headerText="Teléfono" style="text-align:center">
+                            <h:outputText value="#{per.telefonoPersona}"/>
+                        </p:column>
+                        <p:column headerText="Email" style="text-align:center">
+                            <h:outputText value="#{per.correoPersona}"/>
+                        </p:column>
+                        <p:column headerText="Seleccione" style="text-align:center; font-size:13px">
+                            <p:commandButton value="Seleccionar" actionListener="#{ventaBean.agregarDatosPersona(per.idPersona)}" oncomplete="PF('dialogDatosClientes').hide();" update=":formFacturaVenta:gridDatosCliente"/>
+                        </p:column>
+                            </p:dataTable>
+                        <h6></h6><p:commandButton value="Cancelar" oncomplete="PF('dialogDatosClientes').hide();"/>
+                    </p:dialog>
+                    <p:dialog id="dialogProductos" widgetVar="dialogDatosProductos" modal="true" resizable="true" showEffect="explode" hideEffect="explode" style="text-align:center">
+                            <p:dataTable id="tableProductos" value="#{productoBean.listaProductos}" var="pro" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">
+                        <p:column headerText="Código" style="text-align:center">
+                            <h:outputText value="#{pro.codigoProducto}"/>
+                        </p:column>
+                        <p:column headerText="Producto" style="text-align:center">
+                            <h:outputText value="#{pro.nombreProducto}"/>
+                        </p:column>
+                        <p:column headerText="Descripción" style="text-align:center">
+                            <h:outputText value="#{pro.descripcionProducto}"/>
+                        </p:column>
+                        <p:column headerText="Stock" style="text-align:center">
+                            <h:outputText value="#{pro.stockProducto}"/>
+                        </p:column>
+                        <p:column headerText="Valor Venta" style="text-align:center">
+                            <p:outputLabel value="#{pro.valorVentaProducto}">
+                                    <f:convertNumber type="currency" currencySymbol="$ " minFractionDigits="0"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Valor Venta" style="text-align:center">
+                            <p:outputLabel value="#{pro.valorVentaProducto}">
+                                    <f:convertNumber type="currency" currencySymbol="$ " minFractionDigits="0"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="IVA" style="text-align:center">
+                            <h:outputText value="#{pro.iva}"/>
+                        </p:column>
+                        <p:column headerText="Categoría" style="text-align:center">
+                            <h:outputText value="#{pro.idCategoria}"/>
+                        </p:column>
+                        <p:column headerText="Presentación" style="text-align:center">
+                            <h:outputText value="#{pro.idPresentacionProducto}"/>
+                        </p:column>
+                        <p:column headerText="Ubicación" style="text-align:center">
+                            <h:outputText value="#{pro.idUbicacionProducto}"/>
+                        </p:column>        
+                        <p:column headerText="Seleccione" style="text-align:center; font-size:11px">
+                            <p:commandButton value="Seleccionar" actionListener="#{ventaBean.solicitarCantidadProducto(pro.codigoProducto)}" oncomplete="PF('dialogDatosCantidadProducto').show();" update=":formFacturaVenta:dialogCantidadProducto"/>
+                        </p:column>
+                            </p:dataTable>
+                        <h6></h6><p:commandButton value="Cancelar" oncomplete="PF('dialogDatosProductos').hide();"/>
+                    </p:dialog>
+                        <p:dialog id="dialogCantidadProducto" widgetVar="dialogDatosCantidadProducto" header="Cantidad" modal="true" resizable="true" showEffect="explode" hideEffect="explode" style="text-align:center">   
+                            <p:inputText id="inpTexCantidadProducto" value="#{ventaBean.unidadesVendidas}" placeholder="Digite una Cantidad"/>
+                                <p:commandButton value="Aceptar" actionListener="#{ventaBean.agregarDatosProductoPorCodigoProducto()}" oncomplete="PF('dialogDatosCantidadProducto').hide(); PF('dialogDatosProductos').hide();" update=":formFacturaVenta:tableProductoFactura :formFacturaVenta:dialogCantidadProducto :formFacturaVenta:gridTotalFactura"/>
+                        </p:dialog>
+                        <p:dialog id="dialogCantidadProductoPorCodigo" widgetVar="dialogDatosCantidadProductoPorCodigo" header="Cantidad" modal="true" resizable="true" showEffect="explode" hideEffect="explode" style="text-align:center">   
+                            <p:inputText id="inpTexCantidadProductoPorCodigo" value="#{ventaBean.unidadesVendidasPorCodigo}" placeholder="Digite una Cantidad"/>
+                                <p:commandButton value="Aceptar" actionListener="#{ventaBean.agregarDatosProductoPorCodigoProductoRead()}" oncomplete="PF('dialogDatosCantidadProductoPorCodigo').hide();" update=":formFacturaVenta:tableProductoFactura :formFacturaVenta:dialogCantidadProductoPorCodigo :formFacturaVenta:gridTotalFactura"/>
+                        </p:dialog>
                 </h:form>
             </ui:define>
 
         </ui:composition>
 
     </body>
+    
 </html>

@@ -1,6 +1,7 @@
 
 package m10r.dao;
 
+import java.util.List;
 import m10r.model.Usuario;
 
 /**
@@ -9,8 +10,9 @@ import m10r.model.Usuario;
  */
 public interface UsuarioDao {
     
-    public Usuario obtenerInformacionPorUsuario(Usuario usuario);
-    
-    public Usuario ingresoSistema(Usuario usuario);
+    public List<Usuario> mostrarUsuarios();
+    public void ingresarUsuario(Usuario usuario); 
+    public void actualizarUsuario(Usuario usuario);
+    public void eliminarUsuario(Usuario usuario);
     
 }

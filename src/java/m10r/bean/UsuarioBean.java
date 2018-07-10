@@ -1,17 +1,14 @@
 
 package m10r.bean;
 
-import java.awt.event.ActionEvent;
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
+import java.util.List;
+import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.view.ViewScoped;
 import m10r.dao.UsuarioDao;
 import m10r.imp.UsuarioImp;
 import m10r.model.Usuario;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -19,18 +16,19 @@ import org.primefaces.context.RequestContext;
  */
 
 @Named(value = "usuarioBean")
-@SessionScoped
+@ManagedBean
+@ViewScoped
 
 public class UsuarioBean implements Serializable {
 
-    private Usuario usuario;
-    
-    private String username;
-     
-    private String password;
+    private List<Usuario> listaUsuarios;
+    private Usuario usuario = new Usuario();
     
     public UsuarioBean() {
-        this.usuario = new Usuario();
+    }
+
+    public void setListaUsuarios(List<Usuario> listaUsuarios) {
+        this.listaUsuarios = listaUsuarios;
     }
 
     public Usuario getUsuario() {
@@ -41,57 +39,44 @@ public class UsuarioBean implements Serializable {
         this.usuario = usuario;
     }
 
-    public String getUsername() {
-        return username;
+    public List<Usuario> getListaUsuarios() {
+        UsuarioDao catDao = new UsuarioImp();
+        listaUsuarios = catDao.mostrarUsuarios();
+        return listaUsuarios;
     }
- 
-    public void setUsername(String username) {
-        this.username = username;
+    
+    public void nuevoUsuario(){
+        usuario = new Usuario();
     }
- 
-    public String getPassword() {
-        return password;
+    
+    public void ingresarUsuario(){
+        UsuarioDao catDao = new UsuarioImp();
+        catDao.ingresarUsuario(usuario);
     }
- 
-    public void setPassword(String password) {
-        this.password = password;
+    
+    public void actualizarUsuario(){
+        UsuarioDao catDao = new UsuarioImp();
+        catDao.actualizarUsuario(usuario);
+        usuario = new Usuario();
     }
-   
-    public void loginUsuario(ActionEvent event) {
-        RequestContext rc = RequestContext.getCurrentInstance();
-        FacesMessage message = null;
-        boolean loggedIn = false;
-        String Ruta = "";
+    
+    public void eliminarUsuario(){
+        UsuarioDao catDao = new UsuarioImp();
+        catDao.eliminarUsuario(usuario);
+        usuario = new Usuario();
+    }
+    
+    public void reporteUsuarios() throws Exception {
         
-        UsuarioDao uDao = new UsuarioImp();
-        this.usuario = uDao.ingresoSistema(this.usuario);
-       
-        if(this.usuario != null) {
-            
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", this.usuario.getUserEmp());
-            
-            loggedIn = true;
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.usuario.getUserEmp());
-            Ruta = "/m10r/faces/views/HomePage.xhtml";
-            
-        } else {
-            loggedIn = false;
-            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Accesso Invalido", "Verifique Usuario & Password");
-            this.usuario = new Usuario();
+        UsuarioImp Dao;
+        
+        try{
+            Dao = new UsuarioImp();
+            listaUsuarios = Dao.mostrarUsuarios();
         }
-         
-        FacesContext.getCurrentInstance().addMessage(null, message);
-        rc.addCallbackParam("loggedIn", loggedIn);
-        rc.addCallbackParam("Ruta", Ruta);
+        catch(Exception e){
+        throw e;
+        }
     }
-    
-    public String finalizarSesion(){
-        this.username = null;
-        this.password = null;
         
-        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        httpSession.invalidate();
-        return "/indexInterface";  
-    }
-    
 }

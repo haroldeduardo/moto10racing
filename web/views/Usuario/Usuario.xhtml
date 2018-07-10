@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../template/HomeTemplate.xhtml">
+
+            <ui:define name="content">
+                <h1></h1>
+                <h:form>
+                    <p:commandButton value="Nuevo Usuario" actionListener="#{usuarioBean.nuevoUsuario()}" oncomplete="PF('dialogNuevoUsuario').show();" update=":formNuevoUsuario" style="text-align:center; font-size:15px"/>
+                </h:form>
+                <h1></h1>
+                <h:form id="formMostrarUsuarios">
+                    <p:dataTable id="tableUsuarios" value="#{usuarioBean.listaUsuarios}" var="usu" emptyMessage="Sin Registros Guardados" style="align-content:center; margin-left:auto; margin-right:auto; font-style:initial; font-family:sans-serif; font-size:15px">
+                        <p:column headerText="Usuario" style="text-align:center ; width:55px">
+                            <h:outputText value="#{usu.userEmp}"/>
+                        </p:column>
+                        <p:column headerText="Password" style="text-align:center">
+                            <h:outputText value="#{usu.passEmp}" style="font-size: 12px"/>
+                        </p:column>
+                        <p:column headerText="Empleado" style="text-align:center ; width:66px">
+                            <h:outputText value="#{usu.idEmpleado}"/>
+                        </p:column>
+                        <p:column headerText="Modificar" style="text-align:center ; font-size:15px ; width:77px">
+                            <p:commandButton value="Modificar" oncomplete="PF('dialogModificarUsuario').show();" update=":formModificarUsuario" style="font-size: 10px">
+                                <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usu}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="Eliminar" style="text-align:center ; font-size:15px ; width:77px">
+                            <p:commandButton value="Eliminar" oncomplete="PF('dialogEliminarUsuario').show();" update=":formEliminarUsuario"  style="font-size: 10px">
+                                <f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usu}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                <h:form id="formNuevoUsuario">
+                    <p:dialog id="dlgNuevoUsuario" header="Información Usuario" widgetVar="dialogNuevoUsuario" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Usuario"/>
+                                <p:inputText value="#{usuarioBean.usuario.userEmp}"/>
+                            <p:outputLabel value="Password"/>
+                                <p:inputText value="#{usuarioBean.usuario.passEmp}"/>
+                            <p:outputLabel value="Empleado"/>
+                            <p:selectOneMenu value="#{usuarioBean.usuario.idEmpleado}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{empleadoBean.listaEmpleados}" var="usu" itemLabel="#{usu.nombresEmpleado}" itemValue="#{usu.idEmpleado}"/>
+                                </p:selectOneMenu>    
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" actionListener="#{usuarioBean.ingresarUsuario()}" oncomplete="PF('dialogNuevoUsuario').hide();" update=":formMostrarUsuarios:tableUsuarios"/>
+                        <p:commandButton value="Cancelar" onclick="PF('dialogNuevoUsuario').hide();"/>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formModificarUsuario">
+                    <p:dialog id="dlgNuevoUsuario" header="Información Usuario" widgetVar="dialogModificarUsuario" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Usuario"/>
+                                <p:inputText value="#{usuarioBean.usuario.userEmp}"/>
+                            <p:outputLabel value="Password"/>
+                                <p:inputText value="#{usuarioBean.usuario.passEmp}"/>
+                            <p:outputLabel value="Empleado"/>
+                            <p:selectOneMenu value="#{usuarioBean.usuario.idEmpleado}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                                    <f:selectItems value="#{empleadoBean.listaEmpleados}" var="usu" itemLabel="#{usu.nombresEmpleado}" itemValue="#{usu.idEmpleado}"/>
+                                </p:selectOneMenu>
+                        </p:panelGrid>
+                        <p:commandButton value="Modificar" actionListener="#{usuarioBean.actualizarUsuario()}" oncomplete="PF('dialogModificarUsuario').hide();" update=":formMostrarUsuarios:tableUsuarios"/>
+                        <p:commandButton value="Cancelar" onclick="PF('dialogModificarUsuario').hide();"/>
+                    </p:dialog>
+                </h:form>
+                <h:form id="formEliminarUsuario">
+                    <p:dialog id="dlgEliminarUsuario" header="Información Usuario" widgetVar="dialogEliminarUsuario" resizable="false" showEffect="explode" hideEffect="explode" modal="true">
+                        <h:outputText value="¿Desea Eliminar este Usuario? "/>
+                        <p:commandButton value="Si" actionListener="#{usuarioBean.eliminarUsuario()}" oncomplete="PF('dialogEliminarUsuario').hide();" update=":formMostrarUsuarios:tableUsuarios"/>
+                        <p:commandButton value="No" onclick="PF('dialogEliminarUsuario').hide();"/>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
