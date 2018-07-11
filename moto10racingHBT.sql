@@ -750,10 +750,10 @@ TRIGGER `moto10racingHBT`.`actStockProductoFromDetalleCompra`
 BEFORE INSERT ON `moto10racingHBT`.`detalleCompra`
 FOR EACH ROW
 begin
-declare stockActual INT;
-set @stockActual = (select stockProducto from producto where idProducto = new.idProducto);
+declare stockActualCpa INT;
+set @stockActualCpa = (select stockProducto from producto where idProducto = new.idProducto);
 update Producto
-set stockProducto = @stockActual+new.unidadesCompradas where idProducto = new.idProducto;
+set stockProducto = @stockActualCpa+new.unidadesCompradas where idProducto = new.idProducto;
 end$$
 
 USE `moto10racingHBT`$$
@@ -776,6 +776,19 @@ FOR EACH ROW
 begin
 update Producto
 set valorVentaProducto = new.valorVentaProducto where idProducto = new.idProducto;
+end$$
+
+USE `moto10racingHBT`$$
+CREATE
+DEFINER=`root`@`localhost`
+TRIGGER `moto10racingHBT`.`actStockProductoFromDetalleVenta`
+BEFORE INSERT ON `moto10racingHBT`.`detalleVenta`
+FOR EACH ROW
+begin
+declare stockActualVta INT;
+set @stockActualVta = (select stockProducto from producto where idProducto = new.idProducto);
+update Producto
+set stockProducto = @stockActualVta-new.unidadesVendidas where idProducto = new.idProducto;
 end$$
 
 DELIMITER ;

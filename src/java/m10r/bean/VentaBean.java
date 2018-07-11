@@ -236,7 +236,7 @@ public class VentaBean implements Serializable {
             this.transactionVenta = this.sessionVenta.beginTransaction();
             this.persona = pDao.obtenerPersonaPorId(this.sessionVenta, idPersona);
             this.transactionVenta.commit();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"","Proveedor Agregado"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"","Comprador Agregado"));
         } catch (Exception e) {
             if (this.transactionVenta!=null){
                 System.out.println(e.getMessage());
@@ -265,10 +265,10 @@ public class VentaBean implements Serializable {
             this.persona = pDao.obtenerPersonaPorIdentificacion(this.sessionVenta, this.identificacionPersona);
             if (this.persona!=null){
                 this.identificacionPersona=null;
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"","Proveedor Agregado"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"","Comprador Agregado"));
             } else {
                 this.identificacionPersona=null;
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","Proveedor Inexistente"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"","Comprador Inexistente"));
             }
             this.transactionVenta.commit();
         } catch (Exception e) {
@@ -289,7 +289,7 @@ public class VentaBean implements Serializable {
         this.productoSeleccionado = codigoProducto;
     }
     
-    /*public void agregarDatosProductoPorCodigoProducto(){
+    public void agregarDatosProductoPorCodigoProducto(){
         this.sessionVenta=null;
         this.transactionVenta=null;
         
@@ -306,7 +306,7 @@ public class VentaBean implements Serializable {
             this.transactionVenta = this.sessionVenta.beginTransaction();
             this.producto = pDao.obtenerProductoPorCodigoProducto(this.sessionVenta, this.productoSeleccionado);
             
-            this.listaDetalleVenta.add(new DetalleVenta(0, 0, this.producto.getCodigoProducto(), this.producto.getNombreProducto(), this.producto.getValorVentaProducto(), this.producto.getValorVentaProducto(), Integer.parseInt(this.unidadesVendidas), (Float.parseFloat(this.unidadesVendidas)*this.producto.getValorVentaProducto())));
+            this.listaDetalleVenta.add(new DetalleVenta(0, 0, this.producto.getCodigoProducto(), this.producto.getNombreProducto(), this.producto.getValorVentaProducto(), this.producto.getIva(), Integer.parseInt(this.unidadesVendidas), (Float.parseFloat(this.unidadesVendidas)*this.producto.getValorVentaProducto())));
             
             this.transactionVenta.commit();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"","Producto Agregado"));
@@ -329,7 +329,7 @@ public class VentaBean implements Serializable {
                 
         }
         
-    }*/
+    }
     
     public void mostrarDatosCantidadProductoPorCodigo(){
         this.sessionVenta=null;
@@ -369,7 +369,7 @@ public class VentaBean implements Serializable {
         
     }
     
-    /*public void agregarDatosProductoPorCodigoProductoRead(){
+    public void agregarDatosProductoPorCodigoProductoRead(){
             
             if (!(this.unidadesVendidasPorCodigo.matches("[0-9]*")) || this.unidadesVendidasPorCodigo.equals("0") || this.unidadesVendidasPorCodigo.equals("")){
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"","Valor Incorrecto"));
@@ -377,7 +377,7 @@ public class VentaBean implements Serializable {
             
             } else {
         
-        this.listaDetalleVenta.add(new DetalleVenta(0, 0, this.producto.getCodigoProducto(), this.producto.getNombreProducto(), this.producto.getValorVentaProducto(), this.producto.getValorVentaProducto(), Integer.parseInt(this.unidadesVendidasPorCodigo), (Float.parseFloat(this.unidadesVendidasPorCodigo)*this.producto.getValorVentaProducto())));
+        this.listaDetalleVenta.add(new DetalleVenta(0, 0, this.producto.getCodigoProducto(), this.producto.getNombreProducto(), this.producto.getValorVentaProducto(), this.producto.getIva(), Integer.parseInt(this.unidadesVendidasPorCodigo), (Float.parseFloat(this.unidadesVendidasPorCodigo)*this.producto.getValorCompraProducto())));
         
         this.unidadesVendidasPorCodigo="";
                 
@@ -387,7 +387,7 @@ public class VentaBean implements Serializable {
         
             }
         
-    }*/
+    }
     
     public void calcularValorTotalVenta(){
         
@@ -484,11 +484,11 @@ public class VentaBean implements Serializable {
         this.disableBoton();
     }
     
-    public void ingresarVentaFULL(){
+    public void ingresarVentaFULL(){ /// aún definir DESCUENTOS !!!!!!!!!!
         this.sessionVenta = null;
         this.transactionVenta = null;
-        this.empleado.setIdEmpleado(1); /// definir Id Empleado...................
-        this.tipoTransaccion.setIdTipoTransaccion(1); /// definir Tipo de Transacción Contado v Credito...................
+        this.empleado.setIdEmpleado(1); /// aún definir Id Empleado !!!!!!!!!!
+        this.tipoTransaccion.setIdTipoTransaccion(1); /// aún por definir Tipo de Transacción Contado ó Credito !!!!!!!!!
         
         try {
                 this.sessionVenta = HibernateUtil.getSessionFactory().openSession();

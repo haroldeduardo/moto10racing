@@ -487,8 +487,8 @@ public class CompraBean implements Serializable {
     public void ingresarCompraFULL(){
         this.sessionCompra = null;
         this.transactionCompra = null;
-        this.empleado.setIdEmpleado(1); /// definir Id Empleado...................
-        this.tipoTransaccion.setIdTipoTransaccion(1); /// definir Tipo de Transacción Contado v Credito...................
+        this.empleado.setIdEmpleado(1); /// aún definir Id Empleado !!!!!!!!!!
+        this.tipoTransaccion.setIdTipoTransaccion(1); /// aún por definir Tipo de Transacción Contado ó Credito !!!!!!!!!
         
         try {
                 this.sessionCompra = HibernateUtil.getSessionFactory().openSession();
